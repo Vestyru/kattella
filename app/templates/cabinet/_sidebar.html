@@ -1,0 +1,21 @@
+<aside class="sidebar">
+        <nav class="sidebar-nav">
+            <ul class="sidebar-nav__list">
+                <li class="sidebar-nav__item">
+                    <a class="sidebar-nav__link active" href="#">Данные</a>
+                </li>
+                <li class="sidebar-nav__item">
+                    <a class="sidebar-nav__link" href="#">Профили</a>
+                </li>
+                <li class="sidebar-nav__item">
+                    <a class="sidebar-nav__link" href="#">Статистика</a>
+                </li>
+                <li class="sidebar-nav__item">
+                    <a class="sidebar-nav__link" href="{{url_for('user.register')}}">Регистрация пользователя</a>
+                </li>
+            </ul>
+        </nav>
+        <div class="sidebar-footer">
+            <a class="user__logout" href="{{ url_for('user.logout') }}">Выйти</a>
+        </div>
+    </aside>

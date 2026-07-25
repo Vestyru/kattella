@@ -1,0 +1,30 @@
+{% extends 'main/base.html' %}
+{% block title %}Страница Регистрации{% endblock %}
+
+{% block content %}
+<form method="post" enctype="multipart/form-data" class="auth-form">
+    <div class="auth-form__header">
+        <span class="auth-form__title">Регистрация</span>
+    </div>
+    {{ form.csrf_token }}
+    {{ form.name.label(class="auth-form__label-text") }}
+    {{ form.name(class="auth-form__input") }}
+    {{ form.email.label(class="auth-form__label-text") }}
+    {{ form.email(class="auth-form__input") }}
+    {{ form.login.label(class="auth-form__label-text") }}
+    {{ form.login(class="auth-form__input") }}
+    {% if form.login.errors %}
+    <div class="invalid-feedback">
+        {% for error in form.login.errors %}
+        <span>{{ error }}</span>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {{ form.password.label(class="auth-form__label-text") }}
+    {{ form.password(class="auth-form__input") }}
+    {{ form.password2.label(class="auth-form__label-text") }}
+    {{ form.password2(class="auth-form__input") }}
+    {{ form.submit(class="auth-form__submit") }}
+    <a href="{{url_for('user.cabinet')}}">Вернуться в личный кабинет</a>
+</form>
+{% endblock %}

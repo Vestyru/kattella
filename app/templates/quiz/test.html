@@ -1,0 +1,52 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+<section class="question-screen" id="quiz-screen">
+    <form method="post" enctype="multipart/form-data">
+        <div class="question-screen__answers">
+            <div class="question-screen__header">
+                <div class="question-screen__counter" id="question-counter">
+                    Вопросы {{ start_idx + 1 }} из {{ total_questions }}
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-bar__fill" id="progress-fill"
+                         style="width: {{ ((current_page + 1) / total_pages * 100)|round }}%"></div>
+                </div>
+            </div>
+            <div class="answers__container" id="answers-container">
+                {% for question in questions %}
+                <div class="answer-item">
+                    <div class="answer-item__content">
+                        <span class="answer-item__number">{{ start_idx + loop.index }}.</span>
+                        <span class="answer-item__text">{{ question.text }}</span>
+                    </div>
+                    <div class="answer-item__controls">
+                        {% for option in question.options|sort(attribute='sort_order') %}
+                        <input
+                                type="radio"
+                                class="answer-item__radio"
+                                value="{{ option.label }}"
+                                name="question_{{ question.id }}"
+                                id="q{{ question.id }}_opt{{ option.id }}"
+                                required>
+
+                        <label class="answer-item__label"
+                               for="q{{ question.id }}_opt{{ option.id }}">
+                            {{ option.value }}
+                        </label>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <button type="submit" class="question-screen__button">
+                {% if current_page + 1 == total_pages %}
+                Завершить тест
+                {% else %}
+                Далее
+                {% endif %}
+            </button>
+        </div>
+    </form>
+</section>
+{% endblock %}

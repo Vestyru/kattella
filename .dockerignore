@@ -1,0 +1,4 @@
+env/
+__pychanche__/
+migrations/
+.env

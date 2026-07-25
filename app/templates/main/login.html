@@ -1,0 +1,36 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Страница авторизации{% endblock %}
+
+{% block content %}
+<form method="post" enctype="multipart/form-data" class="auth-form">
+    {{ form.csrf_token }}
+    <div class="auth-form__header">
+        <span class="auth-form__title">Вход</span>
+    </div>
+
+    <div class="auth-form__field">
+        <label class="auth-form__label">
+            <span class="auth-form__label-text">{{ form.login.label.text }}</span>
+            <img class="auth-form__icon" src="{{ url_for('static', filename='images/icons/lock.svg') }}"
+                 alt="иконка замка">
+            {{ form.login(class="auth-form__input") }}
+        </label>
+    </div>
+
+    <div class="auth-form__field">
+        <label class="auth-form__label">
+            <span class="auth-form__label-text">{{ form.password.label.text }}</span>
+            <img class="auth-form__icon" src="{{ url_for('static', filename='images/icons/lock.svg') }}"
+                 alt="иконка замка">
+            {{ form.password(class="auth-form__input") }}
+        </label>
+    </div>
+    <div class="auth-form__remember">
+        <a class="auth-form__link" href="/">Вернуться на главную страницу</a>
+        {{ form.remember }}{{ form.remember.label}}
+    </div>
+    <button class="auth-form__submit" type="submit">{{ form.submit.label.text }}</button>
+</form>
+
+{% endblock %}
