@@ -13,6 +13,8 @@ participants = Blueprint('participants', __name__)
 
 @participants.route('/', methods=['GET', 'POST'])
 def quiz():
+    total = db.session.query(Questions).count()
+    print(total)
     form = TestForm()
     if form.validate_on_submit():
         token = secrets.token_urlsafe(32)
@@ -34,7 +36,7 @@ def quiz():
             db.session.rollback()
             flash(f"При отправке произошла ошибка")
             return render_template('main/index.html')
-    return render_template('main/index.html', form=form)
+    return render_template('main/index.html',total=total, form=form)
 
 
 @participants.route('/quiz', methods=['GET', 'POST'])

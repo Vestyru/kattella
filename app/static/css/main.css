@@ -130,6 +130,7 @@ body {
     padding: 14px;
     border: 1px solid var(--border);
     border-radius: 10px;
+    min-height: 44px;
     font-size: 15px;
     box-sizing: border-box;
     transition: border-color 0.2s;

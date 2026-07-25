@@ -1,4 +1,8 @@
 env/
-__pychanche__/
+__pycache__/
 migrations/
 .env
+*.pyc
+.idea/
+.git/
+*.log

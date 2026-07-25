@@ -10,7 +10,7 @@
                     улучшить условия вашей работы. Ответьте, пожалуйста, максимально честно на все утверждения.
                     <b class="start-screen__important">Здесь нет "правильных" или "неправильных" ответов, если
                         затрудняетесь в выборе ответа, выберете то, что наиболее подходит к вам.</b>
-                    Всего будет {{ total_questions }} вопросов, подготовьтесь заранее, и выделите необходимое время (40-50 минут).
+                    Всего будет {{ total }} вопросов, подготовьтесь заранее, и выделите необходимое время (40-50 минут).
                 </p>
                 {% if error_message %}
                     <div class="start-form__message" id="validation-message">{{ error_message }}</div>
@@ -24,7 +24,7 @@
                     {{ form.callsign.label }}
                     {{ form.callsign(class="start-form__input") }}
                     {{ form.date.label }}
-                    {{ form.date(class="start-form__input", type="date") }}
+                    {{ form.date(class="start-form__input", type="date", id="datepicker") }}
                     {{ form.submit(class="start-form__submit") }}
                 </form>
             </div>

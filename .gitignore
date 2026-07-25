@@ -2,3 +2,8 @@ env/
 __pychanche__/
 migrations/
 .env
+*.pyc
+.idea/
+.flaskenv
+real_data.sql
+*.sql

@@ -41,7 +41,7 @@ services:
     depends_on:
       - flask
     ports:
-      - "8080:80"
+      - "80:80"
     networks:
       - app_network
 
