@@ -137,14 +137,63 @@ svg * {
 	--dark-blue:#fff;
 	--dark-blue-bg:#111827;
 	--sidebar-width: 240px;
-    --primary: #2563eb;
     --primary-dark: #1d4ed8;
     --bg-body: #f1f5f9;
     --bg-card: #ffffff;
-    --border: #e2e8f0;
     --text-main: #0f172a;
     --text-muted: #64748b;
-    --shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
-    --radius: 10px;
+}
 
+.snackbar {
+    position: fixed;
+    bottom: 24px;
+    right: 15px;
+    z-index: 9999;
+    padding: 12px 20px;
+    border-radius: 12px;
+    background: #111827;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 500;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    animation: snackIn 0.3s ease;
+    white-space: nowrap;
+}
+.snackbar.active{
+    display: flex;
+}
+
+
+.snackbar.success{
+    color: #10b981;
+}
+
+.snackbar.error{
+    color: #ef4444;
+}
+
+.snackbar.warning{
+    color: #f59e0b;
+}
+
+@keyframes snackIn {
+    from {
+        transform: translateX(0%) translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0%) translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes snackOut {
+    from {
+        transform: translateX(0%) translateY(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(0%) translateY(20px);
+        opacity: 0;
+    }
 }

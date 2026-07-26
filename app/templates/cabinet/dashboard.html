@@ -92,8 +92,10 @@
                             {% endif %}
                         </td>
                         <td>
-                            <button class="btn-profile" title="Посмотреть детально" onclick="showProfile({{ result.id }})">
-                                <img src="{{ url_for('static', filename='images/icons/user-search.svg') }}" alt="Посмотреть детально">
+                            <button class="btn-profile" title="Посмотреть детально"
+                                    onclick="showProfile({{ result.id }})">
+                                <img src="{{ url_for('static', filename='images/icons/user-search.svg') }}"
+                                     alt="Посмотреть детально">
                             </button>
                             <button class="btn-delete" title="Удалить" onclick="deleteResult({{ result.id }})">
                                 <img src="{{ url_for('static', filename='images/icons/delete.svg') }}" alt="Удалить">
@@ -125,8 +127,10 @@
         <section class="profile-section" id="profileSection" style="display: none;">
             <div class="profile-header">
                 <h3>Детальный профиль</h3>
-                <button class="btn-close-profile"
-                        onclick="document.getElementById('profileSection').style.display='none'"></button>
+                <button class="btn-close-profile"  title="Закрыть"
+                        onclick="document.getElementById('profileSection').style.display='none'">
+                    <img src="{{ url_for('static', filename='images/icons/close.svg') }}" alt="Закрыть">
+                </button>
             </div>
             <div class="profile-body">
                 <div class="profile-meta">
@@ -146,25 +150,37 @@
                 <div class="profile-chart-wrapper">
                     <canvas id="profileChart" height="250"></canvas>
                 </div>
-                <div class="secondary-factors">
-                    <h4>Вторичные факторы</h4>
-                    <div id="secondaryFactorsList" class="secondary-grid"></div>
-                </div>
             </div>
-        </section>
 
+            <div class="kattella-panel__content">
+                <h4 class="kattella-panel__title" >СТЕНЫ</h4>
+                <table class="kattella-panel__table">
+                    <thead>
+                    <tr class="kattella-panel__row" id="kattella-panel__factors">
+                        <!--js-->
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="kattella-panel__row" id="kattella-panel__values">
+                       <!--js-->
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </section>
     </main>
 </div>
 
 {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            <div class="snackbar" id="snackbar">
-        {% for message in messages %}
-                <span class="snackbar-text">{{ message }}</span>
-        {% endfor %}
-    </div>
-    {% endif %}
-    {% endwith %}
+{% if messages %}
+<div class="snackbar" id="snackbar">
+    {% for message in messages %}
+    <span class="snackbar-text">{{ message }}</span>
+    {% endfor %}
+</div>
+{% endif %}
+{% endwith %}
 
 {% endblock %}
 

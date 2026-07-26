@@ -28,12 +28,12 @@ async function showProfile(resultId) {
 
         document.getElementById('profileSection').style.display = 'block';
     } catch (error) {
-        const snackbarText =  document.querySelector('.snackbar-text')
-        const snackbar =  document.getElementById('snackbar')
+        const snackbarText = document.querySelector('.snackbar-text')
+        const snackbar = document.getElementById('snackbar')
         snackbar.classList.add('active')
         snackbarText.textContent = 'Ошибка загрузки профиля'
         setTimeout(() => {
-	    snackbar.classList.remove('active')
+            snackbar.classList.remove('active')
         }, 3000);
     }
 }
@@ -44,7 +44,7 @@ function drawProfileChart(scores) {
     const ctx = canvas.getContext('2d');
     if (window.profileChartInstance) window.profileChartInstance.destroy();
 
-    const factors = ['A','B','C','E','F','G','H','I','L','M','N','O','Q1','Q2','Q3','Q4'];
+    const factors = ['A', 'B', 'C', 'E', 'F', 'G', 'H', 'I', 'L', 'M', 'N', 'O', 'Q1', 'Q2', 'Q3', 'Q4'];
     const values = factors.map(f => scores[f] || 5);
 
     window.profileChartInstance = new Chart(ctx, {
@@ -65,16 +65,40 @@ function drawProfileChart(scores) {
                 r: {
                     min: 1,
                     max: 10,
-                    ticks: { stepSize: 1 }
+                    ticks: {stepSize: 1}
                 }
             }
         }
     });
+    renderScoresTable(values, factors);
+}
+
+function renderScoresTable(values, factors) {
+    const valuesContainer = document.getElementById('kattella-panel__values');
+    const factorContainer = document.getElementById('kattella-panel__factors');
+        valuesContainer.textContent = ''
+        factorContainer.textContent = ''
+
+    factors.forEach((factor, index) => {
+        const th = document.createElement('th')
+        th.classList.add('kattella-panel__cell--header');
+        th.textContent = `${factor} (Стен)`
+
+        const td = document.createElement('td')
+        td.classList.add('kattella-panel__cell');
+        td.textContent = values[index];
+
+
+        valuesContainer.append(td)
+        factorContainer.append(th)
+
+    })
+
 }
 
 function deleteResult(resultId) {
     if (confirm('Удалить результат?')) {
-        fetch('/api/result/' + resultId, { method: 'DELETE' })
+        fetch('/api/result/' + resultId, {method: 'DELETE'})
             .then(r => r.json())
             .then(d => {
                 if (d.success) location.reload();

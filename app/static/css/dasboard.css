@@ -357,13 +357,6 @@ body {
     margin-bottom: 1.2rem;
 }
 
-.secondary-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 0.6rem;
-    margin-top: 0.5rem;
-}
-
 .secondary-item {
     background: #f8fafc;
     padding: 0.4rem 0.8rem;
@@ -439,7 +432,6 @@ body {
 
 .profile-status-block {
     margin: 0.8rem 0;
-    padding: 0.8rem 1rem;
     background: #f8fafc;
     border-radius: 8px;
     display: flex;
@@ -455,13 +447,56 @@ body {
 
 .profile-conclusion-block {
     margin: 0.8rem 0 1.2rem 0;
-    padding: 0.8rem 1rem;
 }
 
 .profile-conclusion-block p {
     margin-top: 0.3rem;
     line-height: 1.5;
     color: var(--text-main);
+}
+
+/* ===== ШКАЛЫ ===== */
+.kattella-panel__title{
+    margin-bottom: 20px;
+    font-size: 17px;
+}
+
+.kattella-panel__table {
+    width: 100%;
+    background: #ffffff;
+    border-spacing: 0;
+    border-collapse: separate;
+    border-radius: 12px;
+}
+
+.kattella-panel__cell--header {
+    background-color: #353535;
+    color: #ffffff;
+    font-weight: 500;
+    padding: 4px 3px;
+    border: 1px solid #4c4c4c;
+}
+
+th.kattella-panel__cell--header:first-child {
+    border-top-left-radius: 4px;
+}
+th.kattella-panel__cell--header:last-child {
+    border-top-right-radius: 4px;
+}
+
+.kattella-panel__cell {
+    padding: 4px 3px;
+    border-left: 1px solid #d1d4d6;
+    border-bottom: 1px solid #d1d4d6;
+    vertical-align: middle;
+    display: table-cell;
+    font-size: 14px;
+    color: #374151;
+    text-align: center;
+}
+
+.kattella-panel__cell:last-child {
+    border-right: 1px solid #d1d4d6;
 }
 
 input[type="date"]::-webkit-calendar-picker-indicator {
@@ -473,62 +508,4 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 input[type="date"]::-webkit-datetime-edit-fields-wrapper {
     color: var(--text-muted);;
-}
-
-.snackbar {
-    position: fixed;
-    bottom: 24px;
-    left: 85%;
-    transform: translateX(-50%);
-    z-index: 9999;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 12px 20px;
-    border-radius: 12px;
-    background: #111827;
-    color: #fff;
-    font-size: 14px;
-    font-weight: 500;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-    animation: snackIn 0.3s ease;
-    white-space: nowrap;
-}
-.snackbar.active{
-    display: flex;
-}
-
-
-.snackbar.success{
-    color: #10b981;
-}
-
-.snackbar.error{
-    color: #ef4444;
-}
-
-.snackbar.warning{
-    color: #f59e0b;
-}
-
-@keyframes snackIn {
-    from {
-        transform: translateX(-50%) translateY(20px);
-        opacity: 0;
-    }
-    to {
-        transform: translateX(-50%) translateY(0);
-        opacity: 1;
-    }
-}
-
-@keyframes snackOut {
-    from {
-        transform: translateX(-50%) translateY(0);
-        opacity: 1;
-    }
-    to {
-        transform: translateX(-50%) translateY(20px);
-        opacity: 0;
-    }
 }

@@ -45,6 +45,7 @@ def login():
 
             login_user(user, remember=form.remember.data)
             next_page = request.args.get('next')
+            flash('Вы успешно авторизовались', 'danger')
             return redirect(next_page) if next_page else redirect('/cabinet')
         else:
             flash('Ошибка входа, проверьте логин или пароль', 'danger')

@@ -10,22 +10,21 @@
 </head>
 <body>
 
-<div class="quiz">
-    <div class="quiz__container">
-        {% block content %}{% endblock %}
+    <div class="quiz">
+        <div class="quiz__container">
+            {% block content %}{% endblock %}
+        </div>
     </div>
-</div>
 
-{% with messages = get_flashed_messages() %}
+    {% with messages = get_flashed_messages() %}
         {% if messages %}
-            <div class="snackbar" id="snackbar">
-        {% for message in messages %}
-                <span class="snackbar-text">{{ message }}</span>
+    <div class="snackbar" id="snackbar">
+            {% for message in messages %}
+        <span class="snackbar-text">{{ message }}</span>
         {% endfor %}
     </div>
-    {% endif %}
+        {% endif %}
     {% endwith %}
-</div>
 
 </body>
 </html>
