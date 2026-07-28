@@ -5,5 +5,4 @@ migrations/
 *.pyc
 .idea/
 .flaskenv
-real_data.sql
 nginx/
