@@ -27,6 +27,6 @@ def create_app(config_class=Config):
     login_manager.login_message = 'Доступ закрыт'
 
     with app.app_context():
-        db.create_all()
+        #db.create_all()
 
     return app
