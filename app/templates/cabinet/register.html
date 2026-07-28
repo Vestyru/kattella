@@ -8,11 +8,11 @@
     </div>
     {{ form.csrf_token }}
     {{ form.name.label(class="auth-form__label-text") }}
-    {{ form.name(class="auth-form__input") }}
+    {{ form.name(class="auth-form__input", autocomplete="off") }}
     {{ form.email.label(class="auth-form__label-text") }}
-    {{ form.email(class="auth-form__input") }}
+    {{ form.email(class="auth-form__input", autocomplete="off") }}
     {{ form.login.label(class="auth-form__label-text") }}
-    {{ form.login(class="auth-form__input") }}
+    {{ form.login(class="auth-form__input", autocomplete="off") }}
     {% if form.login.errors %}
     <div class="invalid-feedback">
         {% for error in form.login.errors %}

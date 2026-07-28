@@ -1,15 +1,16 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/dasboard.css') }}">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-    <script src="{{ url_for('static', filename='js/dasboard.js') }}"></script>
-    <title>Панель психолога</title>
-</head>
-<body>
+{% extends 'main/base.html' %}
+
+{% block title %}Личный кабинет{% endblock %}
+
+{% block style %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dasboard.css') }}">
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript" src="{{ url_for('static', filename='js/dasboard.js') }}"></script>
+<script type="text/javascript" defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+{% endblock %}
+
 
 {% block content %}
 <div class="app-wrapper">
@@ -28,7 +29,7 @@
                 </div>
                 <div class="filter-item">
                     <span> Позывной</span>
-                    <input type="text" id="filterCallsign" placeholder="Введите позывной">
+                    <input type="text" id="searchInput" placeholder="Введите позывной" autocomplete="off">
                 </div>
                 <div class="filter-item">
                     <span> Фамилия</span>
@@ -50,8 +51,9 @@
         <section class="table-section">
             <div class="table-toolbar">
                 <div class="toolbar-left">
-                    <span>Показано: <strong id="displayCount">{{ results|length if results else 0 }}</strong> из <span
-                            id="totalCount">{{ results|length if results else 0 }}</span></span>
+                    <span>Показано: <strong id="displayCount">{{ items|length if items else 0 }}</strong> из
+                        <span id="totalCount">{{ items|length if items else 0 }}</span>
+                    </span>
                 </div>
             </div>
             <div class="table-scroll-wrapper">
@@ -69,36 +71,41 @@
                     </tr>
                     </thead>
                     <tbody id="tableBody">
-                    {% if results %}
-                    {% for result in results %}
-                    <tr>
-                        <td>{{ loop.index }}</td>
-                        <td>{{ result.participant.fullname }}</td>
-                        <td>{{ result.participant.callsign }}</td>
-                        <td>{{ result.participant.squad }}</td>
-                        <td>{{ result.participant.date }}</td>
-                        <td>{{ result.created_at.strftime('%d.%m.%Y') }}</td>
+                    {% if items %}
+                    {% for item in items %}
+                    <tr class="table-info">
+                        <td>{{ offset + loop.index }}</td>
+                        <td>{{ item.participant.fullname }}</td>
+                        <td>{{ item.participant.squad }}</td>
+                        <td>{{ item.participant.callsign }}</td>
+                        <td>{{ item.participant.date }}</td>
+                        <td>{{ item.created_at.strftime('%d.%m.%Y') }}</td>
                         <td>
-                            {% set warn_text = result.warnings_json | replace('[', '') | replace(']', '') | replace('"',
+                            {% set warn_text = item.warnings_json | replace('[', '') | replace(']', '') | replace('"',
                             '') %}
-                            {% if 'СУИЦИДАЛЬНЫЙ' in result.group %}
-                            <span class="status-badge status-danger">{{ result.group  }}</span>
-                            {% elif 'ОГРАНИЧИТЬ' in result.group %}
-                            <span class="status-badge status-danger">{{ result.group  }}</span>
+                            {% if 'СУИЦИДАЛЬНЫЙ' in item.group %}
+                            <span class="status-badge status-danger">{{ item.group  }}</span>
+                            {% elif 'ОГРАНИЧИТЬ' in item.group %}
+                            <span class="status-badge status-danger">{{ item.group  }}</span>
                             {% elif warn_text and warn_text != 'Без особенностей' %}
-                            <span class="status-badge status-good">{{ result.group  }}</span>
+                            <span class="status-badge status-good">{{ item.group  }}</span>
                             {% else %}
                             <span class="status-badge">{{ warn_text }}</span>
                             {% endif %}
                         </td>
                         <td>
-                            <button class="btn-profile" title="Посмотреть детально"
-                                    onclick="showProfile({{ result.id }})">
+                            <button class="btn-profile btn btn-primary" title="Посмотреть детально"
+                                    onclick="showProfile({{ item.id }})">
                                 <img src="{{ url_for('static', filename='images/icons/user-search.svg') }}"
                                      alt="Посмотреть детально">
                             </button>
-                            <button class="btn-delete" title="Удалить" onclick="deleteResult({{ result.id }})">
+                            <button class="btn-delete btn" title="Удалить"
+                                    onclick="deleteResult({{ item.id }})">
                                 <img src="{{ url_for('static', filename='images/icons/delete.svg') }}" alt="Удалить">
+                            </button>
+                            <button class="btn-download btn" title="Скачать в PDF формате"
+                                    onclick="downloaditem({{ item.id }})">
+                                <img src="{{ url_for('static', filename='images/icons/download.svg') }}" alt="Скачать">
                             </button>
                         </td>
                     </tr>
@@ -112,22 +119,75 @@
                 </table>
             </div>
             <div class="table-footer">
-                <div class="pagination">
-                    <button class="page-btn" id="prevPage">
+                    <div class="pagination">
+                        {% if pagination.has_prev %}
+                        <a class="page-btn" href="{{ url_for('user.cabinet', page=pagination.prev_num) }}"> <img
+                                src="{{ url_for('static', filename='images/icons/arrow-left.svg') }}" alt="Назад"></a>
+                        {% else %}
+                        <button class="page-btn" id="prevPage">
+                            <img src="{{ url_for('static', filename='images/icons/arrow-left.svg') }}" alt="Назад">
+                        </button>
+                        {% endif %}
+                        <span id="pageInfo">Страница {{ pagination.page }} из {{ pagination.pages }}</span>
+
+                        {% if pagination.has_next %}
+                        <a class="page-btn" href="{{ url_for('user.cabinet', page=pagination.next_num) }}"><img
+                                src="{{ url_for('static', filename='images/icons/arrow-right.svg') }}" alt="Вперед"></a>
+                        {% else %}
+                        <button class="page-btn" id="nextPage">
+                            <img src="{{ url_for('static', filename='images/icons/arrow-right.svg') }}" alt="Вперед">
+                        </button>
+                        {% endif %}
+                    <!--<button class="page-btn" id="prevPage">
                         <img src="{{ url_for('static', filename='images/icons/arrow-left.svg') }}" alt="Назад">
-                    </button>
-                    <span id="pageInfo">Страница 1 из 1</span>
-                    <button class="page-btn" id="nextPage">
+                    </button>-->
+                    <!--<button class="page-btn" id="nextPage">
                         <img src="{{ url_for('static', filename='images/icons/arrow-right.svg') }}" alt="Вперед">
-                    </button>
+                    </button>-->
                 </div>
             </div>
         </section>
 
-        <section class="profile-section" id="profileSection" style="display: none;">
+        <section class="profile-skeleton" id="profileSkeleton" style="display: none;">
+            <div class="profile-skeleton__header">
+                <div class="profile-skeleton__title"></div>
+                <div class="profile-skeleton__close"></div>
+            </div>
+
+            <div class="profile-skeleton__row">
+                <div class="profile-skeleton__field"></div>
+                <div class="profile-skeleton__field"></div>
+                <div class="profile-skeleton__field"></div>
+                <div class="profile-skeleton__field"></div>
+            </div>
+
+            <div class="profile-skeleton__badge"></div>
+            <div class="profile-skeleton__block"></div>
+            <div class="profile-skeleton__chart"></div>
+
+            <div class="profile-skeleton__section-title"></div>
+            <div class="profile-skeleton__table-header">
+                <div class="profile-skeleton__table-cell"></div>
+                <div class="profile-skeleton__table-cell"></div>
+                <div class="profile-skeleton__table-cell"></div>
+                <div class="profile-skeleton__table-cell"></div>
+                <div class="profile-skeleton__table-cell"></div>
+            </div>
+
+            <div class="profile-skeleton__section-title"></div>
+            <div class="profile-skeleton__table-header">
+                <div class="profile-skeleton__table-cell"></div>
+                <div class="profile-skeleton__table-cell"></div>
+                <div class="profile-skeleton__table-cell"></div>
+                <div class="profile-skeleton__table-cell"></div>
+                <div class="profile-skeleton__table-cell"></div>
+            </div>
+        </section>
+
+        <section class="profile-section" id="profileSection">
             <div class="profile-header">
                 <h3>Детальный профиль</h3>
-                <button class="btn-close-profile"  title="Закрыть"
+                <button class="btn-close-profile" title="Закрыть"
                         onclick="document.getElementById('profileSection').style.display='none'">
                     <img src="{{ url_for('static', filename='images/icons/close.svg') }}" alt="Закрыть">
                 </button>
@@ -151,37 +211,43 @@
                     <canvas id="profileChart" height="250"></canvas>
                 </div>
             </div>
-
             <div class="kattella-panel__content">
-                <h4 class="kattella-panel__title" >СТЕНЫ</h4>
+                <h4 class="kattella-panel__title">СТЕНЫ</h4>
                 <table class="kattella-panel__table">
                     <thead>
-                    <tr class="kattella-panel__row" id="kattella-panel__factors">
+                    <tr class="kattella-panel__row" id="kattella-panel__factors"><!--js--></tr>
+                    </thead>
+                    <tbody>
+                    <tr class="kattella-panel__row" id="kattella-panel__values"><!--js--></tr>
+                    </tbody>
+                </table>
+
+                <table class="kattella-panel__table">
+                    <h4 class="kattella-panel__title">СЫРЫЕ БАЛЛЫ</h4>
+                    <thead>
+                    <tr class="kattella-panel__row" id="kattella-panel__scores">
                         <!--js-->
                     </tr>
                     </thead>
                     <tbody>
-                    <tr class="kattella-panel__row" id="kattella-panel__values">
-                       <!--js-->
+                    <tr class="kattella-panel__row" id="kattella-panel__scores-values">
+                        <!--js-->
                     </tr>
                     </tbody>
                 </table>
             </div>
-
         </section>
     </main>
 </div>
-
-{% with messages = get_flashed_messages() %}
-{% if messages %}
-<div class="snackbar" id="snackbar">
-    {% for message in messages %}
-    <span class="snackbar-text">{{ message }}</span>
-    {% endfor %}
+<div class="confirm-overlay" id="confirmOverlay">
+    <div class="confirm-dialog">
+        <p class="confirm-text" id="confirmText">Вы действительно хотите удалить запись?</p>
+        <div class="confirm-actions">
+            <button class="confirm-btn confirm-btn-cancel" onclick="closeConfirm()">Отмена</button>
+            <button class="confirm-btn confirm-btn-delete" id="confirmDeleteBtn">Удалить</button>
+        </div>
+    </div>
 </div>
-{% endif %}
-{% endwith %}
-
 {% endblock %}
 
 </body>

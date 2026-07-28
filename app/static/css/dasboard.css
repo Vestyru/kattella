@@ -1,27 +1,8 @@
-@import url('normalizer.css');
-@import url('fonts.css');
-
-body {
-    min-height: 100%;
-    margin: 0;
-    line-height: 1.5;
-    font-family: 'Montserrat';
-    font-size: 14px;
-    font-weight: 400;
-    background: var(--bg);
-    color: var(--text);
-    display: flex;
-    justify-content: center;
-    overflow-x: hidden;
-}
-
-
 .app-wrapper {
     display: flex;
-    width: 100%;
+    width: 100%
 }
 
-/* ===== САЙДБАР ===== */
 .sidebar {
     width: var(--sidebar-width);
     background: var(--bg-card);
@@ -31,50 +12,48 @@ body {
     top: 0;
     display: flex;
     flex-direction: column;
-    flex-shrink: 0;
+    flex-shrink: 0
 }
-
 
 .sidebar-nav {
     flex: 1;
-    padding: 1rem 0;
+    padding: 1rem 0
 }
-
 
 .sidebar-nav__link {
     display: flex;
     align-items: center;
-    gap: 0.8rem;
-    padding: 0.6rem 1.2rem;
+    gap: .8rem;
+    padding: .6rem 1.2rem;
     color: var(--text-muted);
     text-decoration: none;
-    transition: 0.15s;
+    transition: .15s;
     border-left: 3px solid transparent;
-    font-size: 0.9rem;
+    font-size: .9rem
 }
 
 .sidebar-nav__link:hover {
     background: #f8fafc;
-    color: var(--text-main);
+    color: var(--text-main)
 }
 
 .sidebar-nav__link.active {
     background: #eff6ff;
     color: var(--primary);
     border-left-color: var(--primary);
-    font-weight: 500;
+    font-weight: 500
 }
 
 .sidebar-footer {
     padding: 1rem 1.2rem;
-    border-top: 1px solid var(--border);
+    border-top: 1px solid var(--border)
 }
 
 .user-badge {
     display: flex;
     align-items: center;
-    gap: 0.6rem;
-    color: var(--text-muted);
+    gap: .6rem;
+    color: var(--text-muted)
 }
 
 .user__logout {
@@ -85,263 +64,270 @@ body {
     text-decoration: none;
     border-radius: 4px;
     font-size: 14px;
-    transition: background 0.2s;
+    transition: background .2s
 }
 
 .user-badge i {
     font-size: 1.4rem;
-    color: var(--primary);
+    color: var(--primary)
 }
 
-/* ===== ОСНОВНОЙ КОНТЕНТ ===== */
 .main-content {
     flex: 1;
     padding: 1.5rem 2rem 2.5rem;
-    min-width: 0;
+    min-width: 0
 }
 
-
-/* ===== УПРАВЛЕНИЕ ===== */
 .control-panel {
     background: var(--bg-card);
     border-radius: var(--radius);
     border: 1px solid var(--border);
     padding: 1.2rem 1.5rem;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.5rem
 }
 
 .filter-grid {
     display: flex;
     flex-wrap: wrap;
     align-items: flex-end;
-    gap: 1rem 1.5rem;
+    gap: 1rem 1.5rem
 }
 
 .filter-item {
     display: flex;
     flex-direction: column;
-    gap: 0.2rem;
+    gap: .2rem
 }
 
 .filter-item span {
-    font-size: 0.7rem;
+    font-size: .7rem;
     font-weight: 600;
     text-transform: uppercase;
     color: var(--text-muted);
-    letter-spacing: 0.3px;
+    letter-spacing: .3px
 }
 
 .filter-item input {
-    padding: 0.4rem 0.7rem;
+    padding: .4rem .7rem;
     border: 1px solid var(--border);
     border-radius: 6px;
-    font-size: 0.9rem;
-    min-width: 140px;
+    font-size: .9rem;
+    min-width: 140px
 }
 
 .filter-item input:focus {
     border-color: var(--primary);
     outline: none;
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12)
 }
 
 .filter-item.actions {
     flex-direction: row;
     align-items: center;
-    gap: 0.5rem;
-    margin-left: auto;
+    gap: .5rem;
+    margin-left: auto
 }
 
 .btn {
-    padding: 0.4rem 1rem;
+    padding: 10px 12px;
     border-radius: 6px;
     font-weight: 500;
-    font-size: 0.85rem;
-    cursor: pointer;
+    font-size: .85rem;
     display: inline-flex;
     align-items: center;
-    gap: 0.4rem;
-    transition: 0.15s;
+    gap: .4rem;
+    transition: .15s
+}
+
+.btn-delete{
+    background-color: var(--btn-delete);
+}
+.btn-delete:hover {
+    background-color: var(--btn-delete-hover);
+}
+
+.btn-download {
+    background-color: var(--btn-download);
+}
+.btn-download:hover {
+    background-color: var(--btn-download-hover);
 }
 
 .btn-primary {
-    background: var(--primary);
-    color: white;
+    background-color: var(--color-blue);
+    color: var(--bg)
 }
 
 .btn-primary:hover {
-    background: var(--primary-dark);
+    background: var(--primary-dark)
 }
 
 .btn-secondary {
     background: #f1f5f9;
-    color: var(--text-main);
+    color: var(--text-main)
 }
 
 .btn-secondary:hover {
-    background: #e2e8f0;
+    background: #e2e8f0
 }
 
-
-/* ===== ТАБЛИЦА ===== */
 .table-section {
     background: var(--bg-card);
     border-radius: var(--radius);
     border: 1px solid var(--border);
     overflow: hidden;
-    margin-bottom: 2rem;
+    margin-bottom: 2rem
 }
 
 .table-toolbar {
     display: flex;
     justify-content: space-between;
-    padding: 0.8rem 1.2rem;
+    padding: .8rem 1.2rem;
     border-bottom: 1px solid var(--border);
     flex-wrap: wrap;
-    gap: 0.5rem;
+    gap: .5rem
 }
 
 .toolbar-left {
-    font-size: 0.85rem;
-    color: var(--text-muted);
+    font-size: .85rem;
+    color: var(--text-muted)
 }
 
 .toolbar-left strong {
-    color: var(--text-main);
+    color: var(--text-main)
 }
 
 .table-scroll-wrapper {
     overflow-x: auto;
-    padding: 0 0.2rem;
+    padding: 0 .2rem
 }
 
 #resultsTable {
     width: 100%;
     border-collapse: collapse;
-    font-size: 0.8rem;
-    min-width: 1000px;
+    font-size: .8rem;
+    min-width: 1000px
 }
 
 #resultsTable th {
     background: #f8fafc;
-    padding: 0.5rem 0.4rem;
-    text-align: center;
+    padding: .5rem .4rem;
+    text-align: left;
     font-weight: 600;
-    font-size: 0.7rem;
+    font-size: .7rem;
     text-transform: uppercase;
-    letter-spacing: 0.3px;
+    letter-spacing: .3px;
     color: var(--text-muted);
-    border-bottom: 2px solid var(--border);
+    border-bottom: 2px solid var(--border)
 }
 
 #resultsTable td {
-    padding: 0.4rem 0.3rem;
-    text-align: center;
-    border-bottom: 1px solid #f1f5f9;
+    padding: 5px 8px
 }
 
 #resultsTable tbody tr:hover {
-    background: #fafcff;
+    background: #fafcff
+}
+
+#resultsTable td:last-child {
+    display: flex;
+    justify-content: space-between
 }
 
 #resultsTable td:first-child {
     font-weight: 500;
-    color: var(--text-muted);
+    color: var(--text-muted)
 }
 
-#resultsTable td:nth-child(2),
-#resultsTable td:nth-child(3) {
-    text-align: left;
-    padding-left: 0.6rem;
-    font-weight: 500;
+#resultsTable td:nth-child(2), #resultsTable td:nth-child(3) {
+    text-align: left
 }
 
 .factor-badge {
     display: inline-block;
     min-width: 24px;
-    padding: 0.05rem 0.2rem;
+    padding: .05rem .2rem;
     border-radius: 4px;
     font-weight: 600;
-    font-size: 0.8rem;
+    font-size: .8rem
 }
 
 .factor-low {
     background: #fee2e2;
-    color: #991b1b;
+    color: #991b1b
 }
 
 .factor-mid {
     background: #fef9c3;
-    color: #854d0e;
+    color: #854d0e
 }
 
 .factor-high {
     background: #dcfce7;
-    color: #166534;
+    color: #166534
 }
 
-.btn-profile, .btn-delete {
-    padding: 0.2rem 0.6rem;
-}
-
-/* ===== ПАГИНАЦИЯ ===== */
 .table-footer {
-    padding: 0.7rem 1.2rem;
+    padding: .7rem 1.2rem;
     border-top: 1px solid var(--border);
     display: flex;
-    justify-content: flex-end;
+    justify-content: flex-end
 }
 
 .pagination {
     display: flex;
     align-items: center;
-    gap: 0.6rem;
+    gap: .6rem
 }
 
 .page-btn {
-    padding: 0.2rem 0.6rem;
+    padding: .2rem .6rem;
     border: 1px solid var(--border);
     border-radius: 4px;
     background: white;
-    cursor: pointer;
+    cursor: pointer
 }
 
 .page-btn:disabled {
-    opacity: 0.4;
-    cursor: not-allowed;
+    opacity: .4;
+    cursor: not-allowed
 }
 
 #pageInfo {
-    font-size: 0.85rem;
-    color: var(--text-muted);
+    font-size: .85rem;
+    color: var(--text-muted)
 }
 
-/* ===== ПРОФИЛЬ ===== */
 .profile-section {
     background: var(--bg-card);
     border-radius: var(--radius);
+    transition: height 0.5s ease, opacity 0.5s ease;
+    overflow: hidden;
+    height: 0px;
+}
+.profile-section.active {
     border: 1px solid var(--border);
     padding: 1.2rem 1.5rem;
     margin-bottom: 2rem;
-    display: none;
 }
+
 
 .profile-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 1rem;
+    margin-bottom: 1rem
 }
 
 .profile-header h3 {
-    font-size: 1.1rem;
+    font-size: 1.1rem
 }
 
 .btn-close-profile {
     background: none;
     font-size: 1.2rem;
     cursor: pointer;
-    color: var(--text-muted);
+    color: var(--text-muted)
 }
 
 .profile-meta {
@@ -349,163 +335,319 @@ body {
     gap: 1.5rem;
     margin-bottom: 1rem;
     flex-wrap: wrap;
-    font-size: 0.9rem;
+    font-size: .9rem
 }
 
 .profile-chart-wrapper {
     height: 220px;
-    margin-bottom: 1.2rem;
+    margin-bottom: 1.2rem
 }
 
 .secondary-item {
     background: #f8fafc;
-    padding: 0.4rem 0.8rem;
+    padding: .4rem .8rem;
     border-radius: 6px;
     border: 1px solid var(--border);
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between
 }
 
 .secondary-item .label {
-    font-weight: 500;
+    font-weight: 500
 }
 
 .secondary-item .value {
     font-weight: 700;
-    color: var(--primary);
+    color: var(--primary)
 }
 
-
-/* ===== СТАТУСЫ И ЗАКЛЮЧЕНИЯ ===== */
 .status-badge {
     display: inline-block;
-    padding: 0.2rem 0.6rem;
+    padding: .2rem .6rem;
     border-radius: 6px;
-    font-size: 0.7rem;
+    font-size: .7rem;
     font-weight: 600;
     white-space: normal;
     word-break: break-word;
     text-align: left;
-    line-height: 1.3;
+    line-height: 1.3
 }
 
 .status-good {
     background: #dcfce7;
     color: #166534;
-    border: 1px solid #86efac;
+    border: 1px solid #86efac
 }
 
 .status-warning {
     background: #fef9c3;
     color: #854d0e;
-    border: 1px solid #fcd34d;
+    border: 1px solid #fcd34d
 }
 
 .status-danger {
     background: #fee2e2;
     color: #991b1b;
-    border: 1px solid #fca5a5;
+    border: 1px solid #fca5a5
 }
 
 .status-critical {
     background: #7f1d1d;
     color: #fecaca;
     border: 1px solid #dc2626;
-    animation: pulse-critical 2s infinite;
+    animation: pulse-critical 2s infinite
 }
 
 .status-violator {
     background: #fef3c7;
     color: #92400e;
-    border: 1px solid #f59e0b;
+    border: 1px solid #f59e0b
 }
 
 @keyframes pulse-critical {
     0%, 100% {
-        opacity: 1;
+        opacity: 1
     }
     50% {
-        opacity: 0.8;
-        background: #991b1b;
+        opacity: .8;
+        background: #991b1b
     }
 }
 
 .profile-status-block {
-    margin: 0.8rem 0;
+    margin: .8rem 0;
     background: #f8fafc;
     border-radius: 8px;
     display: flex;
     align-items: center;
-    gap: 0.8rem;
-    flex-wrap: wrap;
+    gap: .8rem;
+    flex-wrap: wrap
 }
 
 .profile-status-label {
     font-weight: 600;
-    font-size: 0.9rem;
+    font-size: .9rem
 }
 
 .profile-conclusion-block {
-    margin: 0.8rem 0 1.2rem 0;
+    margin: .8rem 0 1.2rem 0
 }
 
 .profile-conclusion-block p {
-    margin-top: 0.3rem;
+    margin-top: .3rem;
     line-height: 1.5;
-    color: var(--text-main);
+    color: var(--text-main)
 }
 
-/* ===== ШКАЛЫ ===== */
-.kattella-panel__title{
-    margin-bottom: 20px;
-    font-size: 17px;
+.kattella-panel__title {
+    margin: 30px 0 7px 0;
+    font-size: 17px
 }
 
 .kattella-panel__table {
     width: 100%;
-    background: #ffffff;
+    background: #fff;
     border-spacing: 0;
     border-collapse: separate;
-    border-radius: 12px;
 }
 
 .kattella-panel__cell--header {
-    background-color: #353535;
-    color: #ffffff;
+    background-color: var(--text-main);
+    color: var(--card);
     font-weight: 500;
     padding: 4px 3px;
-    border: 1px solid #4c4c4c;
+    border: 1px solid var(--text-secondary);
 }
 
 th.kattella-panel__cell--header:first-child {
-    border-top-left-radius: 4px;
+    border-top-left-radius: 4px
 }
+
 th.kattella-panel__cell--header:last-child {
-    border-top-right-radius: 4px;
+    border-top-right-radius: 4px
 }
 
 .kattella-panel__cell {
     padding: 4px 3px;
-    border-left: 1px solid #d1d4d6;
-    border-bottom: 1px solid #d1d4d6;
+    border-left: 1px solid var(--text-secondary);
+    border-bottom: 1px solid var(--text-secondary);
     vertical-align: middle;
     display: table-cell;
-    font-size: 14px;
-    color: #374151;
+    color: var(--text);
     text-align: center;
 }
 
 .kattella-panel__cell:last-child {
-    border-right: 1px solid #d1d4d6;
+    border-right: 1px solid var(--text-secondary);
 }
 
 input[type="date"]::-webkit-calendar-picker-indicator {
     background-image: url('/static/images/icons/calendar-days.svg') !important;
     cursor: pointer;
     width: 20px;
-    height: 20px;
+    height: 20px
 }
 
 input[type="date"]::-webkit-datetime-edit-fields-wrapper {
-    color: var(--text-muted);;
+    color: var(--text-muted)
+}
+
+
+/* OVERLAY */
+.confirm-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(2px);
+    z-index: 9999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.confirm-overlay.active {
+    display: flex;
+}
+.confirm-dialog {
+    background: #fff;
+    border-radius: 16px;
+    padding: 28px 24px 20px;
+    text-align: center;
+    width: 360px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+.confirm-text {
+    font-size: 14px;
+    color: #6b7280;
+    margin: 0 0 20px;
+    line-height: 1.4;
+}
+.confirm-actions {
+    display: flex;
+    gap: 10px;
+}
+.confirm-btn {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: opacity 0.2s;
+}
+.confirm-btn:hover { opacity: 0.8; }
+.confirm-btn-cancel {
+    background: #f3f4f6;
+    color: #374151;
+}
+.confirm-btn-delete {
+    background: var(--btn-delete);
+    color: var(--color-white);
+}
+
+/* Скелетон для всей секции профиля */
+.profile-skeleton {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.profile-skeleton__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.profile-skeleton__title {
+    width: 160px;
+    height: 20px;
+    background: #e2e8f0;
+    border-radius: 4px;
+}
+
+.profile-skeleton__close {
+    width: 32px;
+    height: 32px;
+    background: #e2e8f0;
+    border-radius: 6px;
+}
+
+.profile-skeleton__row {
+    display: flex;
+    gap: 24px;
+}
+
+.profile-skeleton__field {
+    flex: 1;
+    height: 16px;
+    background: #e2e8f0;
+    border-radius: 4px;
+}
+
+.profile-skeleton__badge {
+    width: 100px;
+    height: 28px;
+    background: #e2e8f0;
+    border-radius: 14px;
+    margin-top: 4px;
+}
+
+.profile-skeleton__block {
+    height: 60px;
+    background: #e2e8f0;
+    border-radius: 8px;
+}
+
+.profile-skeleton__chart {
+    height: 250px;
+    background: #e2e8f0;
+    border-radius: 8px;
+    margin-top: 8px;
+}
+
+.profile-skeleton__table {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.profile-skeleton__table-header {
+    display: flex;
+    gap: 8px;
+}
+
+.profile-skeleton__table-cell {
+    flex: 1;
+    height: 14px;
+    background: #e2e8f0;
+    border-radius: 4px;
+}
+
+.profile-skeleton__section-title {
+    width: 120px;
+    height: 18px;
+    background: #e2e8f0;
+    border-radius: 4px;
+    margin-top: 16px;
+    margin-bottom: 4px;
+}
+
+/* Анимация пульсации */
+.profile-skeleton__title,
+.profile-skeleton__close,
+.profile-skeleton__field,
+.profile-skeleton__badge,
+.profile-skeleton__block,
+.profile-skeleton__chart,
+.profile-skeleton__table-cell,
+.profile-skeleton__section-title {
+    animation: skeleton-pulse 1.8s ease-in-out infinite;
+}
+
+@keyframes skeleton-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
 }

@@ -6,5 +6,4 @@ migrations/
 .idea/
 .flaskenv
 real_data.sql
-*.sqldocker-compose.yml
 nginx/

@@ -19,7 +19,7 @@ class Options(db.Model):
 
 
 class Answer(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     participant_id = db.Column(db.Integer, db.ForeignKey('participants.id'), nullable=False)
     question_id = db.Column(db.Integer, db.ForeignKey('questions.id'), nullable=False)
     answered_text = db.Column(db.Text)
@@ -28,13 +28,13 @@ class Answer(db.Model):
     question = db.relationship('Questions', backref='answers', lazy=True)
 
 
+
 class Participants(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     fullname = db.Column(db.String(255))
     squad = db.Column(db.String(255))
     callsign = db.Column(db.String(255))
     date = db.Column(db.String(255))
-    token = db.Column(db.String(64), nullable=False)
     is_completed = db.Column(db.Boolean, default=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     finished_at = db.Column(db.DateTime, default=datetime.utcnow)
@@ -43,9 +43,10 @@ class Participants(db.Model):
 
 
 class TestResult(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     participant_id = db.Column(db.Integer, db.ForeignKey('participants.id'), nullable=False)
     scores_json = db.Column(db.Text, nullable=False)
+    new_scores = db.Column(db.Text, nullable=False)
     group = db.Column(db.String(255), nullable=False)
     warnings_json = db.Column(db.Text, nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)

@@ -5,7 +5,7 @@ from wtforms.validators import DataRequired, length, ValidationError
 
 
 class RegisterForm(FlaskForm):
-    name = StringField("ФИО", validators=[DataRequired(), length(min=7, max = 60)])
+    name = StringField("ФИО", validators=[DataRequired(), length(min=7, max = 90)])
     email = StringField('email', validators=[DataRequired(), length(min=7, max = 30)])
     login = StringField('Логин', validators=[DataRequired(), length(min=5, max = 16)])
     password = PasswordField('Пароль', validators=[DataRequired(), length(min=7, max = 30)])

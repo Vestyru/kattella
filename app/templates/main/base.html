@@ -5,26 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-    <script src="{{ url_for('static', filename='js/main.js') }}" async></script>
+    {% block style %}{% endblock %}
     <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
 
-    <div class="quiz">
-        <div class="quiz__container">
-            {% block content %}{% endblock %}
-        </div>
-    </div>
+{% block content %}{% endblock %}
 
-    {% with messages = get_flashed_messages() %}
-        {% if messages %}
-    <div class="snackbar" id="snackbar">
-            {% for message in messages %}
-        <span class="snackbar-text">{{ message }}</span>
-        {% endfor %}
-    </div>
-        {% endif %}
-    {% endwith %}
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<div class="snackbar" id="snackbar">
+    {% for message in messages %}
+    <span class="snackbar-text">{{ message }}</span>
+    {% endfor %}
+    <button class="snapckbar-button" title="Закрыть" onclick="this.parentElement.style.display='none'">
+        <!--<img src="{{ url_for('static', filename='images/icons/close.svg') }}" alt="Закрыть">-->
+        <span class="snapckbar-button--icon">
+            <svg class="close-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#AFAFAF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x-icon lucide-x"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </span>
+    </button>
+</div>
+{% endif %}
+{% endwith %}
 
+{% block script %}{% endblock %}
 </body>
 </html>

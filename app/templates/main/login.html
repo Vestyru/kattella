@@ -4,7 +4,7 @@
 
 {% block content %}
 <form method="post" enctype="multipart/form-data" class="auth-form">
-    {{ form.csrf_token }}
+    {{ form.hidden_tag() }}
     <div class="auth-form__header">
         <span class="auth-form__title">Вход</span>
     </div>
@@ -14,7 +14,7 @@
             <span class="auth-form__label-text">{{ form.login.label.text }}</span>
             <img class="auth-form__icon" src="{{ url_for('static', filename='images/icons/lock.svg') }}"
                  alt="иконка замка">
-            {{ form.login(class="auth-form__input") }}
+            {{ form.login(class="auth-form__input", autocomplete="off") }}
         </label>
     </div>
 

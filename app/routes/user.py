@@ -10,8 +10,21 @@ user = Blueprint('user', __name__)
 @user.route('/cabinet')
 @login_required
 def cabinet():
-    results = TestResult.query.all()
-    return render_template('cabinet/dashboard.html', results=results)
+    page = request.args.get('page', 1, type=int)
+    per_page = 10
+    results = TestResult.query.order_by(TestResult.id.asc())
+
+    pagination = results.paginate(
+        page=page,
+        per_page=per_page,
+        error_out=False,
+        max_per_page=50,
+    )
+
+    offset = (page - 1) * per_page
+
+    return render_template('cabinet/dashboard.html',offset=offset,pagination=pagination,
+        items=pagination.items)
 
 @user.route('/cabinet/register', methods=['GET', 'POST'])
 @login_required
@@ -32,8 +45,10 @@ def register():
 
 @user.route('/login', methods=['GET', 'POST'])
 def login():
+
     if current_user.is_authenticated:
         return redirect('/cabinet')
+
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(login=form.login.data).first()

@@ -1,6 +1,8 @@
 {% extends 'main/base.html' %}
 
 {% block content %}
+<div class="quiz">
+    <div class="quiz__container">
         <section class="start-screen" id="start-screen">
             <div class="start-screen__content">
                 <h1 class="start-screen__title">Тест Контроль</h1>
@@ -16,7 +18,7 @@
                     <div class="start-form__message" id="validation-message">{{ error_message }}</div>
                 {% endif %}
                 <form method="post" enctype="multipart/form-data" class="start-form">
-                    {{ form.csrf_token}}
+                    {{ form.hidden_tag() }}
                     {{ form.fullname.label }}
                     {{ form.fullname(class="start-form__input")}}
                     {{ form.squad.label }}
