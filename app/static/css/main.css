@@ -239,14 +239,24 @@ body {
 .auth-form__input {
     width: 100%;
     padding: 12px 33px;
-    font-size: 15px;
-    line-height: 1.4;
+    font-size: 16px;
     border: 1px solid #d1d5db;
     border-radius: 8px;
     background-color: #fff;
     color: #111;
     transition: border-color .2s, box-shadow .2s
 }
+
+input[type="date"] {
+    font-size: 16px;
+    appearance: none;
+    -webkit-appearance: none;
+    padding: 12px 16px;
+    height: auto;
+    border-radius: 8px;
+    border: 1px solid #d1d5db;
+}
+
 
 .auth-form__input:focus {
     outline: none;
