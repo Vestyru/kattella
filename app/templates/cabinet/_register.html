@@ -1,0 +1,168 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Управление пользователями{% endblock %}
+
+{% block style %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dasboard.css') }}">
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript" src="{{ url_for('static', filename='js/dasboard.js') }}"></script>
+{% endblock %}
+
+{% block content %}
+<div class="app-wrapper">
+    {% include 'cabinet/_sidebar.html' %}
+    <main class="main-content">
+        <div class="page-header">
+            <h1 class="page-header__title">Пользователи</h1>
+            <p class="page-header__subtitle">Управление учётными записями и статусами пользователей</p>
+        </div>
+        <div class="users-panel">
+            <div class="users-panel__toolbar">
+                <div class="users-panel__search">
+                    <div class="search-input">
+                        <svg class="search-input__icon" viewBox="0 0 256 256" fill="currentColor">
+                            <path d="M229.66,218.34l-50.07-50.06a88.11,88.11,0,1,0-11.31,11.31l50.06,50.07a8,8,0,0,0,11.32-11.32ZM40,112a72,72,0,1,1,72,72A72.08,72.08,0,0,1,40,112Z"></path>
+                        </svg>
+                        <input type="text" class="search-input__field" placeholder="Поиск по ФИО или email...">
+                    </div>
+                </div>
+
+                <button class="btn btn-primary"
+                        onclick="document.getElementById('registerOverlay').style.display='flex'">
+                    <svg class="btn-add__icon" viewBox="0 0 256 256" fill="currentColor">
+                        <path d="M224,128a8,8,0,0,1-8,8H136v80a8,8,0,0,1-16,0V136H40a8,8,0,0,1,0-16h80V40a8,8,0,0,1,16,0v80h80A8,8,0,0,1,224,128Z"></path>
+                    </svg>
+                    Добавить пользователя
+                </button>
+            </div>
+
+            <div class="users-table">
+                <div class="users-table__wrapper">
+                    <table class="users-table__grid">
+                        <thead>
+                        <tr class="users-table__header-row">
+                            <th class="users-table__header-cell">Пользователь</th>
+                            <th class="users-table__header-cell">Email</th>
+                            <th class="users-table__header-cell">Роль</th>
+                            <th class="users-table__header-cell">Прикреплен к отряду</th>
+                            <th class="users-table__header-cell">Регистрация</th>
+                            <th class="users-table__header-cell users-table__header-cell--center">Действия</th>
+                        </tr>
+                        </thead>
+                        <tbody class="users-table__body">
+
+                        {% for group_user in group_users %}
+                        <tr class="users-table__row">
+                            <td class="users-table__cell">
+                                <div class="user-cell">
+                                    <div>
+                                        <p class="user-cell__name">{{ group_user.name }}</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="users-table__cell">{{ group_user.email }}</td>
+                            <td class="users-table__cell">
+                                {% if group_user.status == 'admin' %}
+                                <div class="role-badge role-badge--admin">Администратор
+                                    <span class="role-badge__hint"
+                                          data-tooltip="Полный доступ ко всем функциям">?</span>
+                                </div>
+                                {% elif group_user.status == 'moderator' %}
+                                <div class="role-badge role-badge--moderator">Модератор
+                                    <span class="role-badge__hint" data-tooltip="Ограниченный доступ">?</span>
+                                </div>
+                                {% else %}
+                                <div class="role-badge role-badge--user">Пользователь
+                                    <span class="role-badge__hint"
+                                          data-tooltip="Закрытый доступ к админ панели">?</span>
+                                </div>
+                                {% endif %}
+                            </td>
+                            <td class="users-table__cell">{{ group_user.group if group_user.group else '' }}</td>
+                            <td class="users-table__cell">{{ group_user.date.strftime('%d.%m.%Y') }}</td>
+                            <td class="users-table__cell">
+                                <div class="action-buttons">
+                                    <button class="action-btn" title="Изменить статус">
+                                        <svg class="action-btn__icon" viewBox="0 0 256 256" fill="currentColor">
+                                            <path d="M227.32,73.37,182.63,28.68a16,16,0,0,0-22.63,0L36.69,152A15.86,15.86,0,0,0,32,163.31V208a16,16,0,0,0,16,16H92.69A15.86,15.86,0,0,0,104,219.31L227.32,96A16,16,0,0,0,227.32,73.37ZM92.69,208H48V163.31l88-88L180.69,120ZM192,108.69,147.32,64l24-24L216,84.68Z"></path>
+                                        </svg>
+                                    </button>
+                                    <button class="action-btn action-btn--danger" title="Удалить">
+                                        <svg class="action-btn__icon" viewBox="0 0 256 256" fill="currentColor">
+                                            <path d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM96,40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96Zm96,168H64V64H192ZM112,104v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Z"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        {% else %}
+                        <td class="users-table__cell">
+                            <div class="user-cell">
+                                <div>
+                                    <p class="user-cell__name">Нет данных</p>
+                                </div>
+                            </div>
+                        </td>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div id="registerForm">
+            <div class="register-overlay" id="registerOverlay">
+                <form method="post" enctype="multipart/form-data" class="register-form">
+                    <button class="close-btn" onclick="document.getElementById('registerOverlay').style.display='none'">
+                        <svg width="20" height="20" viewBox="0 0 256 256" fill="currentColor">
+                            <path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"></path>
+                        </svg>
+                    </button>
+                    <div class="register-form__header">
+                        <span class="register-form__title">Добавить пользователя</span>
+                    </div>
+                    {{ form.csrf_token }}
+
+                    {{ form.name.label(class="auth-form__label-text") }}
+                    {{ form.name(class="register-form__input auth-form__input", autocomplete="off") }}
+
+                    {{ form.email.label(class="auth-form__label-text") }}
+                    {{ form.email(class="register-form__input auth-form__input", autocomplete="off") }}
+
+                    {{ form.login.label(class="auth-form__label-text") }}
+                    {{ form.login(class="register-form__input auth-form__input", autocomplete="off") }}
+                    {% if form.login.errors %}
+                    <div class="invalid-feedback">
+                        {% for error in form.login.errors %}
+                        <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+
+                    {{ form.password.label(class="auth-form__label-text") }}
+                    {{ form.password(class="register-form__input auth-form__input") }}
+
+                    {{ form.password2.label(class="auth-form__label-text") }}
+                    {{ form.password2(class="register-form__input auth-form__input") }}
+
+                    <div class="form-group">
+                        {{ form.group_user.label(class="auth-form__label-text") }}
+                        {{ form.group_user(class="register-form__input auth-form__input") }}
+                        <small>Назначьте группу для пользователя</small>
+                    </div>
+
+                    <div class="form-group">
+                        {{ form.group_status.label(class="auth-form__label-text") }}
+                        {{ form.group_status(class="register-form__input auth-form__input") }}
+                        <small>Назначьте статус для пользователя.</small>
+                    </div>
+
+                    {{ form.submit(class="btn btn-primary") }}
+                </form>
+            </div>
+
+    </main>
+</div>
+{% endblock %}

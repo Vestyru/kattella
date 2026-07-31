@@ -3,10 +3,13 @@ from werkzeug.middleware.proxy_fix import ProxyFix
 from flask_wtf.csrf import CSRFProtect
 from .extensions import db, migrate, login_manager
 from .config import Config
+import os
 
 from  .routes.user import user
 from  .routes.main import main
 from  .routes.quiz import quiz_bp
+from  .routes.pdf import pdf_bp
+
 
 def create_app(config_class=Config):
     app = Flask(__name__)
@@ -17,6 +20,7 @@ def create_app(config_class=Config):
     app.register_blueprint(quiz_bp)
     app.register_blueprint(user)
     app.register_blueprint(main)
+    app.register_blueprint(pdf_bp)
 
     db.init_app(app)
     migrate.init_app(app,db)
@@ -27,6 +31,6 @@ def create_app(config_class=Config):
     login_manager.login_message = 'Доступ закрыт'
 
     with app.app_context():
-        #db.create_all()
+        db.create_all()
 
     return app

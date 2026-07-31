@@ -9,12 +9,13 @@ body {
     font-weight: 400;
     min-height: 100%;
     background: var(--bg);
-    color: var(--text);
+    color: var(--color-text-primary);
     display: flex;
     justify-content: center;
     align-items: center;
     overflow-x: hidden
 }
+
 
 .hidden {
     display: none !important
@@ -177,7 +178,7 @@ body {
 }
 
 .auth-form__field {
-    margin-bottom: 20px
+    margin-bottom: 12px
 }
 
 .auth-form__label {
@@ -218,7 +219,7 @@ body {
 .auth-form__input:disabled {
     background-color: #f3f4f6;
     color: #9ca3af;
-    cursor: not-allowed
+    cursor: not-allowed;
 }
 
 .auth-form__link {
@@ -226,12 +227,13 @@ body {
     font-size: 13px;
     color: var(--color-blue);
     text-decoration: none;
-    flex: 1
+    flex: 1;
+    margin-bottom: 10px;
 }
 
 .auth-form__link:hover {
     color: #334155;
-    text-decoration: underline
+    text-decoration: underline;
 }
 
 .auth-form__submit {
@@ -243,7 +245,7 @@ body {
     background-color: var(--color-blue);
     border-radius: 8px;
     cursor: pointer;
-    transition: background-color .2s, transform .1s
+    transition: background-color .2s, transform .1s;
 }
 
 .auth-form__submit:hover {
@@ -495,9 +497,15 @@ body {
 
 .auth-form__remember {
     display: flex;
-    align-items: center;
+    align-items: flex-end;
+    flex-direction: column-reverse;
     gap: 3px;
-    margin: 16px 0 18px 0
+}
+
+.remember__container {
+    display: flex;
+    align-items: center;
+    gap: 5px;
 }
 
 .auth-form__remember input[type="checkbox"] {

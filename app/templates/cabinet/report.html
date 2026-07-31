@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Заключение</title>
+    <style>
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'TimesNewRoman', 'Times New Roman', Times, serif;
+    font-weight: 300;
+    font-size: 14pt;
+    max-width: 210mm;
+    margin: 0 auto;
+    padding: 0 8mm 0 29mm;
+}
+
+
+/* ===== ШАПКА - КАК В ВОРДЕ ===== */
+.header {
+    margin-bottom: 14mm;
+    position: relative;
+}
+
+.line {
+    border-bottom: 1px solid black;
+    width: 100%;
+}
+
+.header .left {
+    font-weight: bold;
+    display: inline-block;
+    border-bottom: 2px solid black;
+    padding-top: 5mm;
+}
+
+.header .right {
+    display: inline-block;
+    text-align: center;
+    position: absolute;
+    right: 0;
+    top: 0;
+    font-size: 10pt;
+}
+
+.header .right .service-use {
+    text-decoration: underline;
+}
+
+/* ===== ЗАГОЛОВОК ===== */
+.title-block {
+    text-align: center;
+}
+
+.title-block .main-title {
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.title-block .sub-title {
+    margin-top: 2px;
+}
+
+.title-block .doc-number {
+    margin-top: 2px;
+}
+
+/* ===== ФИО ===== */
+.fullname {
+    text-align: center;
+    font-weight: bold;
+    letter-spacing: 0.1mm;
+}
+
+/* ===== ДАТЫ ===== */
+.dates {
+    margin-bottom: 5mm;
+}
+
+.dates .row {
+    display: flex;
+    justify-content: center;
+}
+
+/* ===== БЛОКИ ТЕКСТА ===== */
+
+.block .label {
+    font-weight: bold;
+    border-bottom: 2px solid black;
+    display: inline-block;
+    margin-left: 12.7mm;
+}
+
+/*
+    ===== ВЫСТУПАЮЩИЙ ТЕКСТ (АБЗАЦ С ОТСТУПОМ) =====
+    text-indent создает красную строку (отступ первой строки)
+    padding-left создает отступ всего абзаца слева
+*/
+.block .text {
+    font-style: italic;
+    margin-top: 1mm;
+    text-indent: 12.7mm;
+    text-align: justify;
+    letter-spacing: 0mm;
+}
+
+/* Альтернативный вариант - если нужен отступ всего абзаца */
+.block .text-indent {
+    font-style: italic;
+    margin-top: 1mm;
+    padding-left: 15mm; /* отступ слева для всего абзаца */
+}
+
+.block .text-bold {
+    font-weight: bold;
+    font-style: italic;
+    margin-top: 1mm;
+    padding-left: 12.7mm;
+}
+
+/* ===== РЕКОМЕНДАЦИИ ===== */
+.recommendation-block .label {
+    font-weight: bold;
+    margin: 7mm 0;
+    border-bottom: 2px solid black;
+    display: inline-block;
+    margin-left: 10mm;
+}
+
+/* ===== ПОДПИСЬ ===== */
+
+
+.signature-block .signature-line {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+
+
+/* ===== ОЗНАКОМЛЕН ===== */
+.ack-block {
+    margin-top: 5mm;
+}
+
+.ack-block .ack-line {
+    margin-bottom: 8mm;
+    display: flex;
+}
+
+.ack-block .ack-line:last-child {
+    margin-bottom: 0;
+}
+
+@page {
+    margin-top: 20mm;
+    margin-right: 0;
+    margin-bottom: 20mm;
+    margin-left: 5mm;
+}
+
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="left">СТРОГО КОНФИДЕНЦИАЛЬНО</div>
+        <div class="right">
+            <div class="service-use">Для служебного пользования</div>
+            <div>(п.54 Перечня сведений ВС)</div>
+            <div>Экз. №__</div>
+        </div>
+    </div>
+
+    <div class="title-block">
+        <div class="main-title">ЗАКЛЮЧЕНИЕ</div>
+        <div class="sub-title">по результатам психологического обследования военнослужащего</div>
+        <div class="doc-number">№ {{ result.id }}-Д от {{ result.created_at.strftime('%d.%m.%Y') }} г.</div>
+    </div>
+
+    <div class="fullname">{{ result.participant.fullname }}</div>
+
+    <div class="dates">
+        <div class="row">
+            <span class="label">Дата рождения:  {{ result.participant.date.split('-')[2] }}.{{ result.participant.date.split('-')[1] }}.{{ result.participant.date.split('-')[0] }} г.</span>
+        </div>
+        <div class="row">
+            <span class="label">Дата проведения обследования: {{ result.created_at.strftime('%d.%m.%Y') }} г.</span>
+        </div>
+    </div>
+
+    <div class="block">
+        <div class="label">Цель психологического мониторинга:</div>
+        <div class="text">Углубленное психологическое обследование.</div>
+    </div>
+
+    <div class="block">
+        <div class="label">Используемые методы:</div>
+        <div class="text">Психологическое обследование</div>
+    </div>
+
+    <div class="block">
+        <div class="label">Использованные методики:</div>
+        <div class="text-bold">16-факторный личностный опросник Кеттелла.</div>
+    </div>
+
+    <div class="block">
+        <div class="label">Описание значимых результатов психологического обследования:</div>
+        <div class="text">
+            По результатам стандартизированного психологического тестирования получен формально достоверный профиль, при котором не выявлены признаки эмоциональной дезадаптации, повышенной тревожности, агрессивных или саморазрушающих тенденций. Вместе с тем результаты самоотчётных методик находятся в выраженном противоречии с данными непосредственного психологического обследования.
+        </div>
+    </div>
+
+    <div class="recommendation-block">
+        <div class="label">Рекомендации:</div>
+        <span class="text">{% set warnings = result.warnings_json | replace('[', '') | replace(']', '') | replace('"', '') %}
+            {% if warnings and warnings != 'Без особенностей' %}
+                {{ warnings }}
+            {% else %}
+                Рекомендован к службе. Психологический профиль в пределах нормы.
+            {% endif %}</span>
+    </div>
+
+    <div class="signature-block">
+        <div class="position">Офицер отдела (психологической работы)</div>
+        <div class="rank">старший лейтенант</div>
+        <div class="signature-line">
+            <div class="name">Н. Овчинников</div>
+        </div>
+        <div class="date">{{ result.created_at.strftime('%d.%m.%Y') }} г.</div>
+    </div>
+
+    <div class="ack-block">
+        <div class="ack-line">ОЗНАКОМЛЕН:<span class="line"></span></div>
+        <div class="ack-line">ОЗНАКОМЛЕН:<span class="line"></span></div>
+        <div class="ack-line">ОЗНАКОМЛЕН:<span class="line"></span></div>
+    </div>
+
+</body>
+</html>

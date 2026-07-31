@@ -1,21 +1,59 @@
-<aside class="sidebar">
-        <nav class="sidebar-nav">
-            <ul class="sidebar-nav__list">
-                <li class="sidebar-nav__item">
-                    <a class="sidebar-nav__link active" href="#">Данные</a>
-                </li>
-                <li class="sidebar-nav__item">
-                    <a class="sidebar-nav__link" href="#">Профили</a>
-                </li>
-                <li class="sidebar-nav__item">
-                    <a class="sidebar-nav__link" href="#">Статистика</a>
-                </li>
-                <li class="sidebar-nav__item">
-                    <a class="sidebar-nav__link" href="{{url_for('user.register')}}">Регистрация пользователя</a>
-                </li>
-            </ul>
-        </nav>
-        <div class="sidebar-footer">
-            <a class="user__logout" href="{{ url_for('user.logout') }}">Выйти</a>
+<aside class="sidebar {% if session.get('sidebar') == 'close' %}active{% endif %}" id="sidebar">
+    <button id="sidebar-toggle" aria-label="Свернуть меню">
+        <svg class="icon-btn text-text-secondary" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+    </button>
+    <nav class="sidebar-nav">
+        <ul class="sidebar-nav__list">
+            <li class="sidebar-nav__item">
+                <a class="sidebar-nav__link {% if request.endpoint == 'user.cabinet' %}active{% endif %}" href="{{ url_for('user.cabinet') }}">
+                    <svg class="icon-btn" width="20" height="20" viewBox="0 0 256 256" fill="currentColor">
+                        <path d="M219.31,108.68l-80-80a16,16,0,0,0-22.62,0l-80,80A15.87,15.87,0,0,0,32,120v96a8,8,0,0,0,8,8H96a8,8,0,0,0,8-8V160h48v56a8,8,0,0,0,8,8h56a8,8,0,0,0,8-8V120A15.87,15.87,0,0,0,219.31,108.68ZM208,208H168V152a8,8,0,0,0-8-8H96a8,8,0,0,0-8,8v56H48V120l80-80,80,80Z"></path>
+                    </svg>
+                    <span class="slider-nav--text">Главная</span>
+                </a>
+            </li>
+            {% if current_user.status == 'admin' %}
+            <li class="sidebar-nav__item">
+                <a class="sidebar-nav__link {% if request.endpoint == 'user.register' %}active{% endif %}" href="{{url_for('user.register')}}">
+                    <svg class="icon-btn" width="20" height="20" viewBox="0 0 256 256" fill="currentColor"><path d="M117.25,157.92a60,60,0,1,0-66.5,0A95.83,95.83,0,0,0,3.53,195.63a8,8,0,1,0,13.4,8.74,80,80,0,0,1,134.14,0,8,8,0,0,0,13.4-8.74A95.83,95.83,0,0,0,117.25,157.92ZM40,108a44,44,0,1,1,44,44A44.05,44.05,0,0,1,40,108Zm210.14,98.7a8,8,0,0,1-11.07-2.33A79.83,79.83,0,0,0,172,168a8,8,0,0,1,0-16,44,44,0,1,0-16.34-84.87,8,8,0,1,1-5.94-14.85,60,60,0,0,1,55.53,105.64,95.83,95.83,0,0,1,47.22,37.71A8,8,0,0,1,250.14,206.7Z"></path></svg>
+                      <span class="slider-nav--text">Пользователи</span>
+                </a>
+            </li>
+            {% endif %}
+
+            <li class="sidebar-nav__item">
+                <a class="sidebar-nav__link " href="#">
+                    <svg class="icon-btn" width="20" height="20" viewBox="0 0 256 256" fill="currentColor"><path d="M224,200h-8V40a8,8,0,0,0-8-8H152a8,8,0,0,0-8,8V80H96a8,8,0,0,0-8,8v40H48a8,8,0,0,0-8,8v64H32a8,8,0,0,0,0,16H224a8,8,0,0,0,0-16ZM160,48h40V200H160ZM104,96h40V200H104ZM56,144H88v56H56Z"></path></svg>
+                     <span class="slider-nav--text">Отчеты</span>
+                </a>
+            </li>
+            <li class="sidebar-nav__item">
+                <a class="sidebar-nav__link {% if request.endpoint == 'user.settings' %}active{% endif %}" href="{{url_for('user.settings')}}">
+                    <svg class="icon-btn" width="20" height="20" viewBox="0 0 256 256" fill="currentColor"><path d="M128,80a48,48,0,1,0,48,48A48.05,48.05,0,0,0,128,80Zm0,80a32,32,0,1,1,32-32A32,32,0,0,1,128,160Zm88-29.84q.06-2.16,0-4.32l14.92-18.64a8,8,0,0,0,1.48-7.06,107.21,107.21,0,0,0-10.88-26.25,8,8,0,0,0-6-3.93l-23.72-2.64q-1.48-1.56-3-3L186,40.54a8,8,0,0,0-3.94-6,107.71,107.71,0,0,0-26.25-10.87,8,8,0,0,0-7.06,1.49L130.16,40Q128,40,125.84,40L107.2,25.11a8,8,0,0,0-7.06-1.48A107.6,107.6,0,0,0,73.89,34.51a8,8,0,0,0-3.93,6L67.32,64.27q-1.56,1.49-3,3L40.54,70a8,8,0,0,0-6,3.94,107.71,107.71,0,0,0-10.87,26.25,8,8,0,0,0,1.49,7.06L40,125.84Q40,128,40,130.16L25.11,148.8a8,8,0,0,0-1.48,7.06,107.21,107.21,0,0,0,10.88,26.25,8,8,0,0,0,6,3.93l23.72,2.64q1.49,1.56,3,3L70,215.46a8,8,0,0,0,3.94,6,107.71,107.71,0,0,0,26.25,10.87,8,8,0,0,0,7.06-1.49L125.84,216q2.16.06,4.32,0l18.64,14.92a8,8,0,0,0,7.06,1.48,107.21,107.21,0,0,0,26.25-10.88,8,8,0,0,0,3.93-6l2.64-23.72q1.56-1.48,3-3L215.46,186a8,8,0,0,0,6-3.94,107.71,107.71,0,0,0,10.87-26.25,8,8,0,0,0-1.49-7.06ZM128,168a40,40,0,1,1,40-40A40,40,0,0,1,128,168Z"></path></svg>
+                     <span class="slider-nav--text">Настройки</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <div class="user-card">
+        <div class="user-card__avatar">
+            {% if current_user.is_authenticated %}
+            <span class="user-card__initials">{{ current_user.name[:2] | upper }}</span>
         </div>
-    </aside>
+        <div class="user-card__info">
+            <span class="user-card__name">{{ current_user.name }}</span>
+            <span class="user-card__email text-text-muted">{{ current_user.email }}</span>
+            {% endif %}
+        </div>
+    </div>
+    <div class="sidebar-footer">
+        <a class="user__logout" href="{{ url_for('user.logout') }}">
+            <svg width="20" height="20" viewBox="0 0 256 256" fill="currentColor">
+                <path d="M120,216a8,8,0,0,1-8,8H48a8,8,0,0,1-8-8V40a8,8,0,0,1,8-8h64a8,8,0,0,1,0,16H56V208h56A8,8,0,0,1,120,216Zm109.66-93.66-40-40a8,8,0,0,0-11.32,11.32L204.69,120H112a8,8,0,0,0,0,16h92.69l-26.35,26.34a8,8,0,0,0,11.32,11.32l40-40A8,8,0,0,0,229.66,122.34Z"></path>
+            </svg>
+            <span>Выйти</span>
+        </a>
+    </div>
+</aside>

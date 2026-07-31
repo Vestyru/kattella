@@ -1,3 +1,4 @@
+from sqlalchemy import Null
 from ..extensions import db
 from datetime import datetime
 
@@ -38,7 +39,6 @@ class Participants(db.Model):
     is_completed = db.Column(db.Boolean, default=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     finished_at = db.Column(db.DateTime, default=datetime.utcnow)
-    group = db.Column(db.String(255), nullable=True)
 
 
 
@@ -47,8 +47,8 @@ class TestResult(db.Model):
     participant_id = db.Column(db.Integer, db.ForeignKey('participants.id'), nullable=False)
     scores_json = db.Column(db.Text, nullable=False)
     new_scores = db.Column(db.Text, nullable=False)
+    group_user = db.Column(db.String(255), nullable=False, default=Null)
     group = db.Column(db.String(255), nullable=False)
     warnings_json = db.Column(db.Text, nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
-
     participant = db.relationship('Participants', backref='results')

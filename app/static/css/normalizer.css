@@ -1,5 +1,7 @@
 *, ::before, ::after {
-    box-sizing: border-box
+    box-sizing: border-box;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
 }
 
 html {
@@ -44,17 +46,17 @@ p:where(:not([class]):not(:last-child)) {
     font-style: normal
 }
 
-img, video {
+img, svg, video, canvas, audio, iframe, embed, object {
+    vertical-align: middle;
     display: block;
-    max-width: 100%;
-    height: auto
 }
 
 input, textarea, select {
     font: inherit;
     margin: 0;
     outline: none;
-    border: none
+    border: none;
+    cursor: text;
 }
 
 button, label {
@@ -78,7 +80,8 @@ button, label {
 }
 
 a:where([class]) {
-    display: inline-flex
+    display: inline-flex;
+    text-decoration: none;
 }
 
 :where([fill]:not([fill='none'],[fill^='url'])) {
@@ -104,6 +107,7 @@ svg * {
     }
 }
 
+
 :root {
     --bg: #fdfdfd;
     --card: #fff;
@@ -125,11 +129,23 @@ svg * {
     --bg-body: #f1f5f9;
     --bg-card: #fff;
     --text-main: #0f172a;
-    --text-muted: #64748b;
+    --text-muted: #94a3b8;
     --btn-delete: #ef4444;
     --btn-delete-hover: #d83b32;
     --btn-download:#5fd068;
     --btn-download-hover:#4ea956;
-
-    --radius: 10px
+    --color-border-subtle: #e2e8f0;
+    --shadow-card: 0 2px 8px #0000000a;
+    --color-text-primary: #1e293b;
+    --color-text-secondary: #64748b;
+    --color-success-bg: #dcfce7;
+    --color-success-text: #166534;
+    --color-warning-bg: #fef9c3;
+    --color-warning-text: #854d0e;
+    --color-danger-text: #991b1b;
+    --color-danger-bg: #fee2e2;
+    --color-accent-muted: #c7d2fe;
+    --color-accent: #4f46e5;
+    --radius: 12px;
+    --spacing: .25rem;
 }

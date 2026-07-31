@@ -1,0 +1,70 @@
+{% extends 'main/base.html' %}
+
+{% block title %}Настройки профиля{% endblock %}
+
+{% block style %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dasboard.css') }}">
+{% endblock %}
+
+{% block script %}
+<script type="text/javascript" src="{{ url_for('static', filename='js/dasboard.js') }}"></script>
+{% endblock %}
+
+{% block content %}
+<div class="app-wrapper">
+    {% include 'cabinet/_sidebar.html' %}
+    <main class="main-content">
+        <div class="page-header">
+            <h1 class="page-header__title">Настройки</h1>
+            <p class="page-header__subtitle">Управление параметрами учётной записи и системы</p>
+            <div class="section">
+                <div class="section-body">
+                    <div class="user-card user-card--profile">
+                        <div class="user-card__initials user-card__initials--lg">АП</div>
+                        <div class="user-card__info">
+                            <span class="user-card__name">Администратор</span>
+                            <span class="user-card__role">Администратор</span>
+                        </div>
+                    </div>
+
+                    <div class="profile-form-grid">
+                        <div class="filter-item">
+                            <span class="label-field">Имя</span>
+                            <input type="text" class="input-field" value="">
+                        </div>
+                        <div class="filter-item">
+                            <span class="label-field">Email</span>
+                            <input type="email" class="input-field" value="">
+                        </div>
+                        <div class="filter-item filter-item--full">
+                            <span class="label-field">Должность</span>
+                            <input type="text" class="input-field" value="">
+                        </div>
+
+                        <div class="filter-item">
+                            <span class="label-field">Текущий пароль</span>
+                            <input type="password" class="input-field" placeholder="Введите текущий пароль">
+                        </div>
+                        <div class="filter-item">
+                            <span class="label-field">Новый пароль</span>
+                            <input type="password" class="input-field" placeholder="Введите новый пароль">
+                        </div>
+                        <div class="filter-item filter-item--full">
+                            <span class="label-field">Подтвердите новый пароль</span>
+                            <input type="password" class="input-field" placeholder="Повторите новый пароль">
+                        </div>
+                    </div>
+                </div>
+                <div class="section-footer">
+                    <button class="btn btn-primary">
+                        <svg width="20" height="20" viewBox="0 0 256 256" fill="currentColor">
+                            <path d="M173.66,98.34a8,8,0,0,1,0,11.32l-56,56a8,8,0,0,1-11.32,0l-24-24a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35A8,8,0,0,1,173.66,98.34ZM232,128A104,104,0,1,1,128,24,104.11,104.11,0,0,1,232,128Zm-16,0a88,88,0,1,0-88,88A88.1,88.1,0,0,0,216,128Z"></path>
+                        </svg>
+                        Сохранить изменения
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+{% endblock %}

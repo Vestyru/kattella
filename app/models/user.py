@@ -15,4 +15,10 @@ class User(db.Model,UserMixin):
     email = db.Column(db.String(120))
     password = db.Column(db.String(255))
     status = db.Column(db.String, default='user')
+    group = db.Column(db.String(255), nullable=True, default=None)
     date = db.Column(db.DateTime,default=datetime.utcnow)
+
+    def has_group_access(self, group_name):
+        if self.status == 'admin':
+            return True
+        return self.group == group_name

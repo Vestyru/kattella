@@ -3,6 +3,7 @@ bcrypt==5.0.0
 blinker==1.9.0
 brotli==1.2.0
 cffi==2.1.0
+charset-normalizer==3.4.9
 click==8.4.2
 csscompressor==0.9.5
 cssmin==0.2.0
@@ -28,6 +29,7 @@ pycparser==3.0
 pydyf==0.12.1
 pyphen==0.17.2
 python-dotenv==1.2.2
+reportlab==5.0.0
 setuptools==83.0.0
 SQLAlchemy==2.0.51
 tinycss2==1.5.1
@@ -35,6 +37,7 @@ tinyhtml5==2.1.0
 typing_extensions==4.16.0
 uWSGI==2.0.31
 watchdog==6.0.0
+weasyprint==69.0
 webencodings==0.5.1
 Werkzeug==3.1.8
 wheel==0.47.0

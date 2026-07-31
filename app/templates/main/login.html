@@ -28,7 +28,9 @@
     </div>
     <div class="auth-form__remember">
         <a class="auth-form__link" href="/">Вернуться на главную страницу</a>
-        {{ form.remember }}{{ form.remember.label}}
+        <div class="remember__container">
+            {{ form.remember }}{{ form.remember.label}}
+        </div>
     </div>
     <button class="auth-form__submit" type="submit">{{ form.submit.label.text }}</button>
 </form>

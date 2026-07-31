@@ -1,14 +1,50 @@
+/*===== sidebar =====*/
+const sidebar = document.getElementById('sidebar');
+const buttonSidebar = document.getElementById('sidebar-toggle');
+const iconButton = document.querySelector('.icon-btn');
+const sidebarText = document.querySelectorAll('.slider-nav--text');
+const sidebarCard = document.querySelector('.user-card__info');
+const sidebarLogout = document.querySelector('.user__logout');
+
+
+buttonSidebar.addEventListener('click', closeSidebar);
+
+function closeSidebar() {
+    sidebar.classList.toggle('active');
+    iconButton.classList.toggle('rotate-180');
+    sidebarText.forEach(item => item.classList.toggle('slider-nav--text-close'));
+    sidebarCard.classList.toggle('user-card__info--close');
+    sidebarLogout.classList.toggle('user__logout--close');
+
+    const state = sidebar.classList.contains('active') ? 'open' : 'close';
+    localStorage.setItem('sidebar', state);
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const state = localStorage.getItem('sidebar');
+
+    if (state === 'open') {
+        sidebar.classList.add('active');
+        iconButton.classList.add('rotate-180');
+        sidebarText.forEach(item => item.classList.add('slider-nav--text-close'));
+        sidebarCard.classList.add('user-card__info--close');
+        sidebarLogout.classList.add('user__logout--close');
+    }
+});
+
 async function showProfile(resultId) {
     const skeleton = document.getElementById('profileSkeleton');
     skeleton.style.display = 'flex';
     try {
         const response = await fetch('/api/result/' + resultId);
-        if (!response.ok) { throw new Error(response.statusText); }
+        if (!response.ok) {
+            throw new Error(response.statusText);
+        }
         const data = await response.json();
-        document.getElementById('profileSurname').textContent = data.fullname;
-        document.getElementById('profileCallsign').textContent = data.callsign;
-        document.getElementById('profileGroup').textContent = data.squad;
-        document.getElementById('profileDate').textContent = data.date;
+        document.getElementById('profileSurname').textContent = `${data.fullname}`;
+        document.getElementById('profileCallsign').textContent = `${data.callsign} ·`;
+        document.getElementById('profileGroup').textContent = `${data.squad} ·`;
+        document.getElementById('profileDate').textContent = `${data.date}`;
         const statusEl = document.getElementById('profileStatus');
         statusEl.textContent = data.group;
         statusEl.className = 'status-badge';
@@ -19,7 +55,7 @@ async function showProfile(resultId) {
         }
         document.getElementById('profileConclusion').textContent = Array.isArray(data.warnings) && data.warnings.length > 0 ? data.warnings.join('; ') : 'Противопоказаний не выявлено';
         if (data.scores && typeof data.scores === 'object' || data.news_scores && typeof data.news_scores === 'object') {
-            drawProfileChart(data.scores,data.news_scores);
+            drawProfileChart(data.scores, data.news_scores);
         }
 
         document.getElementById('profileSection').style.display = 'block';
@@ -35,8 +71,8 @@ async function showProfile(resultId) {
         profileContainer.style.height = '0px';
         profileContainer.style.opacity = '1';
 
-        requestAnimationFrame(function() {
-        profileContainer.style.height = fullHeight + 'px';
+        requestAnimationFrame(function () {
+            profileContainer.style.height = fullHeight + 'px';
         });
 
         skeleton.style.display = 'none';
@@ -54,6 +90,7 @@ function drawProfileChart(scores, new_scores) {
     const factors = ['A', 'B', 'C', 'E', 'F', 'G', 'H', 'I', 'L', 'M', 'N', 'O', 'Q1', 'Q2', 'Q3', 'Q4'];
     const values = factors.map(f => scores[f] || 5);
     const valuesScore = factors.map(f => new_scores[f] || 5);
+
     window.profileChartInstance = new Chart(ctx, {
         type: 'radar',
         data: {
@@ -63,13 +100,45 @@ function drawProfileChart(scores, new_scores) {
                 data: values,
                 backgroundColor: 'rgba(99, 102, 241, 0.2)',
                 borderColor: '#6366f1',
-                borderWidth: 2,
-                pointBackgroundColor: values.map(v => v >= 7 ? '#10b981' : v <= 4 ? '#ef4444' : '#f59e0b')
+                borderWidth: 3,
+                pointBackgroundColor: values.map(v => v >= 7 ? '#10b981' : v <= 4 ? '#ef4444' : '#f59e0b'),
+                pointRadius: 6,
             }]
         },
-        options: {scales: {r: {min: 1, max: 10, ticks: {stepSize: 1}}}}
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                r: {
+                    min: 1,
+                    max: 10,
+                    ticks: {
+                        stepSize: 1,
+                        backdropColor: 'transparent',
+                        font: {size: 11}
+                    },
+                    grid: {color: '#e2e8f0'},
+                    angleLines: {color: '#e2e8f0'},
+                    pointLabels: {
+                        font: {size: 10, weight: '600'}
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'bottom',
+                    labels: {
+                        padding: 20,
+                        usePointStyle: true,
+                        font: {size: 12}
+                    }
+                }
+            }
+
+        }
     });
-    renderScoresTable(values, factors,valuesScore);
+    renderScoresTable(values, factors, valuesScore);
 }
 
 function renderScoresTable(values, factors, valuesScore) {
@@ -118,8 +187,8 @@ function deleteResult(resultId) {
 
     overlayContainer.classList.add('active');
 
-    confirmDeleteBtn.addEventListener('click', function() {
-           fetch('/api/result/' + resultId, {method: 'DELETE'}).then(r => r.json()).then(d => {
+    confirmDeleteBtn.addEventListener('click', function () {
+        fetch('/api/result/' + resultId, {method: 'DELETE'}).then(r => r.json()).then(d => {
             if (d.success) location.reload(); else alert('Ошибка удаления');
         });
     })
@@ -130,4 +199,8 @@ function closeConfirm() {
     overlayContainer.classList.remove('active');
 }
 
-function downloaditem(resultId) {}
+function downloaditem(resultId) {
+}
+
+
+

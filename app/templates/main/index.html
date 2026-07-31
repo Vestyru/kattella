@@ -20,11 +20,11 @@
                 <form method="post" enctype="multipart/form-data" class="start-form">
                     {{ form.hidden_tag() }}
                     {{ form.fullname.label }}
-                    {{ form.fullname(class="start-form__input")}}
-                    {{ form.squad.label }}
-                    {{ form.squad(class="start-form__input") }}
+                    {{ form.fullname(class="start-form__input", autocomplete="off")}}
                     {{ form.callsign.label }}
-                    {{ form.callsign(class="start-form__input") }}
+                    {{ form.callsign(class="start-form__input", autocomplete="off") }}
+                    {{ form.squad.label }}
+                    {{ form.squad(class="start-form__input", autocomplete="off") }}
                     {{ form.date.label }}
                     {{ form.date(class="start-form__input", type="date", id="datepicker") }}
                     {{ form.submit(class="start-form__submit") }}
