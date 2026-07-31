@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict Y5XsdeVH4ZshgexpEwe80Ntbe5fUZF3ICpMbnk2ZcJEyZtEab2umcJt6jMaZXbI
+\restrict UOpirjlATw6VPBVcN5ODRbkQjBZOxfAYPjvqC8fe8YB8T0Fq6eCATM0nxT1LxkZ
 
 -- Dumped from database version 18.4 (Ubuntu 18.4-0ubuntu0.26.04.1)
 -- Dumped by pg_dump version 18.4 (Ubuntu 18.4-0ubuntu0.26.04.1)
@@ -2201,5 +2201,5 @@ GRANT ALL ON SCHEMA public TO kattella;
 -- PostgreSQL database dump complete
 --
 
-\unrestrict Y5XsdeVH4ZshgexpEwe80Ntbe5fUZF3ICpMbnk2ZcJEyZtEab2umcJt6jMaZXbI
+\unrestrict UOpirjlATw6VPBVcN5ODRbkQjBZOxfAYPjvqC8fe8YB8T0Fq6eCATM0nxT1LxkZ
 
