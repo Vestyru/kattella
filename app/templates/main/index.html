@@ -26,9 +26,11 @@
                     {{ form.squad.label }}
                     {{ form.squad(class="start-form__input", autocomplete="off") }}
                     {{ form.date.label }}
-                    {{ form.date(class="start-form__input", type="date") }}
+                    {{ form.date(class="start-form__input", type="date", placeholder="ДД.ММ.ГГГГ") }}
                     {{ form.submit(class="start-form__submit") }}
                 </form>
             </div>
         </section>
+        </div>
+    </div>
 {% endblock %}
