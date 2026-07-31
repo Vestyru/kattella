@@ -26,7 +26,7 @@
                     {{ form.squad.label }}
                     {{ form.squad(class="start-form__input", autocomplete="off") }}
                     {{ form.date.label }}
-                    {{ form.date(class="start-form__input", type="date", id="datepicker") }}
+                    {{ form.date(class="start-form__input", type="date", placeholder="ДД.ММ.ГГГГ", pattern="\d{2}\.\d{2}\.\d{4}",title="ДД.ММ.ГГГГ") }}
                     {{ form.submit(class="start-form__submit") }}
                 </form>
             </div>

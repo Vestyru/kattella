@@ -6,3 +6,5 @@ migrations/
 .idea/
 .flaskenv
 nginx/
+.gitignore
+kattella_dump.sql

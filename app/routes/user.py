@@ -1,5 +1,4 @@
-from click import group
-from flask import Blueprint, redirect, render_template, flash, request
+from flask import Blueprint, redirect, render_template, flash, request,session
 from flask_login import login_user, logout_user, login_required, current_user
 from ..extensions import db,bcrypt
 from ..forms import LoginForm, RegisterForm,SearchForm
@@ -93,7 +92,7 @@ def register():
 
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-        user = User(name=form.name.data, login=form.login.data , email=form.email.data, password=hashed_password, group=form.group_user.data)
+        user = User(name=form.name.data, login=form.login.data , email=form.email.data, password=hashed_password, group=form.group_user.data,status=form.group_status.data)
         try:
             db.session.add(user)
             db.session.commit()
@@ -129,9 +128,10 @@ def login():
 
     return render_template('main/login.html', form=form)
 
-@user.route('/logout',methods=['GET', 'POST'])
+@user.route('/logout',methods=['GET'])
 def logout():
     logout_user()
+    session.clear()
     return redirect('/login')
 
 

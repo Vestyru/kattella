@@ -39,7 +39,7 @@
 }
 
 .slider-nav--text-close, .user-card__info--close{
-    display: none;
+    display: none !important;
 }
 
 .user__logout--close{
@@ -249,7 +249,8 @@
 
 .btn-reset:hover {
     color: #1e293b;
-    background: #f1f5f9
+    background: #f8fafc;
+    border-color: #cbd5e1;
 }
 
 .button-icon{
@@ -1195,6 +1196,8 @@ input[type="date"]::-webkit-datetime-edit-fields-wrapper {
     flex-direction: column;
     gap: 2px;
 }
+
+
 
 .user-card__name {
     color: var(--text-main);

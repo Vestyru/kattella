@@ -220,7 +220,7 @@ body {
     </div>
 
     <div class="recommendation-block">
-        <div class="label">Рекомендации:</div>
+        <div class="label">Вывод:</div>
         <span class="text">{% set warnings = result.warnings_json | replace('[', '') | replace(']', '') | replace('"', '') %}
             {% if warnings and warnings != 'Без особенностей' %}
                 {{ warnings }}
