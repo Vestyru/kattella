@@ -7,4 +7,3 @@ migrations/
 .flaskenv
 nginx/
 .gitignore
-kattella_dump.sql

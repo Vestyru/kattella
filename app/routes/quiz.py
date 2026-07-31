@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, flash, session, jsonify
-from flask_login import login_required
+from flask_login import login_required,current_user
 from ..forms import TestForm
 from ..models.quiz import Questions, Participants, Answer, TestResult
 from ..extensions import db
@@ -41,7 +41,6 @@ def quiz_register():
     return render_template('main/index.html', total=total, form=form)
 
 
-
 @quiz_bp.route('/quiz', methods=['GET', 'POST'])
 def show_quiz():
     participant_id = session.get('participant_id')
@@ -57,7 +56,6 @@ def show_quiz():
 
     if participant.is_completed:
         session.clear()
-        flash('Вы уже завершили тест!', 'info')
         return redirect('/finish')
 
     current_page = session.get('current_page', 0)
@@ -139,7 +137,6 @@ def show_quiz():
     )
 
 
-
 @quiz_bp.route('/api/result/<int:result_id>', methods=['GET'])
 @login_required
 def get_result_api(result_id):
@@ -166,23 +163,21 @@ def get_result_api(result_id):
 
 
 @quiz_bp.route('/api/result/<int:result_id>', methods=['DELETE'])
-@login_required
 def delete_result_api(result_id):
     try:
         result = TestResult.query.get_or_404(result_id)
         participant_id = result.participant_id
 
         Answer.query.filter_by(participant_id=participant_id).delete()
-        db.session.delete(result)
+        TestResult.query.filter_by(participant_id=participant_id).delete()
         Participants.query.filter_by(id=participant_id).delete()
+
         db.session.commit()
-
         return jsonify({'success': True})
-    except Exception as e:
-        db.session.rollback()
-        flash('Ошибка при удалении', 'error')
-        return jsonify({'success': False, 'error': str(e)}), 500
 
+    except Exception:
+        db.session.rollback()
+        return jsonify({'success': False}), 500
 
 @quiz_bp.route('/finish')
 def finish():

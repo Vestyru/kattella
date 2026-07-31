@@ -1,4 +1,3 @@
-from sqlalchemy import Null
 from ..extensions import db
 from datetime import datetime
 
@@ -47,7 +46,6 @@ class TestResult(db.Model):
     participant_id = db.Column(db.Integer, db.ForeignKey('participants.id'), nullable=False)
     scores_json = db.Column(db.Text, nullable=False)
     new_scores = db.Column(db.Text, nullable=False)
-    group_user = db.Column(db.String(255), nullable=False, default=Null)
     group = db.Column(db.String(255), nullable=False)
     warnings_json = db.Column(db.Text, nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)

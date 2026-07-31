@@ -66,8 +66,7 @@
                             <td class="users-table__cell">
                                 {% if group_user.status == 'admin' %}
                                 <div class="role-badge role-badge--admin">Администратор
-                                    <span class="role-badge__hint"
-                                          data-tooltip="Полный доступ ко всем функциям">?</span>
+                                    <span class="role-badge__hint" data-tooltip="Полный доступ ко всем функциям">?</span>
                                 </div>
                                 {% elif group_user.status == 'moderator' %}
                                 <div class="role-badge role-badge--moderator">Модератор
@@ -75,12 +74,16 @@
                                 </div>
                                 {% else %}
                                 <div class="role-badge role-badge--user">Пользователь
-                                    <span class="role-badge__hint"
-                                          data-tooltip="Закрытый доступ к админ панели">?</span>
+                                    <span class="role-badge__hint" data-tooltip="Закрытый доступ к админ панели">?</span>
                                 </div>
                                 {% endif %}
                             </td>
-                            <td class="users-table__cell">{{ group_user.group if group_user.group else '' }}</td>
+                            {% if group_user.status == 'admin' %}
+                            <td class="users-table__cell">Все группы</td>
+                            {% else %}
+                            <td class="users-table__cell">{{ group_user.group if group_user.group else 'Группа отсутствует' }}</td>
+                            {% endif %}
+
                             <td class="users-table__cell">{{ group_user.date.strftime('%d.%m.%Y') }}</td>
                             <td class="users-table__cell">
                                 <div class="action-buttons">

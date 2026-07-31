@@ -189,12 +189,10 @@
     gap: 1rem;
 }
 
-.filter-item span {
-    font-size: .7rem;
-    font-weight: 600;
-    text-transform: uppercase;
+.filter-item input {
+    font-weight: 500;
     color: var(--text-muted);
-    letter-spacing: .3px
+    letter-spacing: 0.3px
 }
 
 .filter-item input {
@@ -335,6 +333,7 @@
     color: var(--color-text-secondary);
 }
 
+
 #resultsTable th {
     padding: .5rem .4rem;
     text-align: left;
@@ -349,14 +348,15 @@
     padding: 5px 8px
 }
 
+.table-actions{
+    display: flex;
+    justify-content: center;
+}
+
 #resultsTable tbody tr:hover {
     background: #fafcff
 }
 
-#resultsTable td:last-child {
-    display: flex;
-    justify-content: center;
-}
 
 #resultsTable th:last-child{
     text-align: center;
@@ -801,6 +801,8 @@ input[type="date"]::-webkit-datetime-edit-fields-wrapper {
     opacity: 0.5;
 }
 
+
+
 /* Подсветка активного поиска */
 #searchInput:focus,
 #filterSurname:focus,
@@ -971,6 +973,7 @@ input[type="date"]::-webkit-datetime-edit-fields-wrapper {
 .users-table__cell {
     padding: 14px 16px;
     color: var(--text-secondary, #374151);
+    font-size: 13px;
 }
 
 .users-table__cell--center {
@@ -1234,9 +1237,5 @@ input[type="date"]::-webkit-datetime-edit-fields-wrapper {
 }
 
 .section-body {
-    padding: 1.2rem 1.5rem 0;
-}
-
-.section-footer {
-    padding: 1.2rem 1.5rem;
+    padding: 20px
 }

@@ -1,7 +1,7 @@
-from flask import Blueprint, redirect, render_template, flash, request,session
+from flask import Blueprint, redirect, render_template, flash, request,session, url_for
 from flask_login import login_user, logout_user, login_required, current_user
 from ..extensions import db,bcrypt
-from ..forms import LoginForm, RegisterForm,SearchForm
+from ..forms import LoginForm, RegisterForm,SearchForm, Update_profile
 from ..models.user import User
 from ..models.quiz import TestResult, Participants
 
@@ -21,13 +21,6 @@ def report(result_id):
     return render_template('cabinet/report.html', result=result)
 
 
-@user.route('/cabinet/settings')
-@login_required
-def settings():
-
-    return render_template('cabinet/_settings.html')
-
-
 @user.route('/cabinet', methods=['GET', 'POST'])
 @login_required
 def cabinet():
@@ -42,7 +35,7 @@ def cabinet():
 
     query = TestResult.query.join(Participants)
 
-    if current_user.status != 'admin':
+    if current_user.group != 'admin':
         if current_user.group:
             query = query.filter(Participants.squad == current_user.group)
         else:
@@ -84,15 +77,24 @@ def cabinet():
 def register():
     form = RegisterForm()
 
-    form.group_user.choices = [(g.squad, g.squad) for g in db.session.query(Participants.squad).distinct().all() if g.squad]
-    form.group_status.choices = [(g.status, g.status) for g in db.session.query(User.status).distinct().all() if g.status]
+    groups = db.session.query(Participants.squad).distinct().all()
+    group_choices = [(g.squad, g.squad) for g in groups if g.squad]
+    group_choices.insert(0, ('admin', 'Все группы'))
+    form.group_user.choices = group_choices
+
+
+    statuses = db.session.query(User.status).distinct().all()
+    form.group_status.choices = [(s.status, s.status) for s in statuses if s.status]
 
     group_users = User.query.all()
 
+    group = form.group_user.data
+    if group == 'admin':
+        group = 'admin'
 
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-        user = User(name=form.name.data, login=form.login.data , email=form.email.data, password=hashed_password, group=form.group_user.data,status=form.group_status.data)
+        user = User(name=form.name.data, login=form.login.data , email=form.email.data, password=hashed_password, group=group,status=form.group_status.data)
         try:
             db.session.add(user)
             db.session.commit()
@@ -127,6 +129,37 @@ def login():
             flash('Ошибка входа, проверьте логин или пароль', 'danger')
 
     return render_template('main/login.html', form=form)
+
+
+@user.route('/cabinet/settings', methods=['GET', 'POST'])
+@login_required
+def settings():
+    form = Update_profile()
+
+    if form.validate_on_submit():
+        user = User.query.get(current_user.id)
+
+        if form.password.data:
+            if not bcrypt.check_password_hash(user.password, form.password.data):
+                flash('Неверный текущий пароль!', 'danger')
+                return render_template('cabinet/_settings.html', form=form)
+
+
+        user.name = form.name.data
+
+        if form.password1.data:
+            user.password = bcrypt.generate_password_hash(form.password1.data).decode('utf-8')
+
+        try:
+            db.session.commit()
+            flash('Данные обновлены!', 'success')
+            return redirect(url_for('user.settings'))
+        except Exception as e:
+            db.session.rollback()
+            flash(f'Ошибка сохранения: {str(e)}', 'danger')
+
+    return render_template('cabinet/_settings.html', form=form)
+
 
 @user.route('/logout',methods=['GET'])
 def logout():

@@ -342,10 +342,9 @@ def get_profile_verdicts(sten_scores):
     no_weapon = ((q3 <= 4 and f >= 8) + (c <= 3 and q3 <= 4) + suicide)
 
     if suicide > 0:
-        group = 'СУИЦИДАЛЬНЫЙ РИСК'
+        group = 'Суицидальный риск'
     elif no_weapon > 0:
-        group = 'ОГРАНИЧИТЬ ДОПУСК К ОРУЖИЮ'
-
+        group = 'Риск импульсивности, опасности с оружием'
 
     if g <= 3 and q3 <= 4:
         warnings.append('Риск нарушения дисциплины')

@@ -1,6 +1,6 @@
 from io import BytesIO
 from flask import Blueprint, render_template, send_file
-from flask_login import login_required, current_user
+from flask_login import login_required
 from weasyprint import HTML
 from datetime import datetime
 import json
@@ -10,34 +10,27 @@ from ..models.quiz import TestResult
 pdf_bp = Blueprint('pdf_bp', __name__)
 
 
-@pdf_bp.route('/download/report/<int:result_id>')
+@pdf_bp.route('/download/report/<int:result_id>/<int:report_number>')
 @login_required
-def download_report(result_id):
-    # Получаем данные
+def download_report(result_id,report_number):
+
+
     result = TestResult.query.get_or_404(result_id)
     participant = result.participant
 
-    # Проверка доступа
-    if current_user.status != 'admin':
-        if current_user.group != participant.squad:
-            return "Доступ запрещен", 403
 
-    # Парсим JSON
     warnings = json.loads(result.warnings_json) if result.warnings_json else []
 
-    # Формируем рекомендации
     if warnings and warnings != ['Без особенностей']:
         recommendations = ', '.join(warnings)
     else:
         recommendations = "Рекомендован к службе. Психологический профиль в пределах нормы."
 
-    # Рендерим HTML
     html_content = render_template(
         'cabinet/report.html',
-        result=result
+        result=result,report_number=report_number
     )
 
-    # Генерируем PDF через WeasyPrint
     pdf = HTML(string=html_content).write_pdf()
 
     return send_file(

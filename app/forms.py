@@ -39,3 +39,13 @@ class SearchForm(FlaskForm):
     callsign = StringField('Позывной', validators=[Optional()])
     date = DateField('Дата рождения', validators=[Optional()])
     submit = SubmitField('Найти')
+
+
+class Update_profile(FlaskForm):
+    name = StringField('ФИО', validators=[DataRequired()])
+    login = StringField('Логин', validators=[DataRequired()])
+    email = StringField('email')
+    password = PasswordField('Текущий пароль', validators=[DataRequired()])
+    password1 = PasswordField('Новый пароль', validators=[DataRequired()])
+    password2 = PasswordField('Подтвердите новый пароль', validators=[DataRequired()])
+    submit = SubmitField('Сохранить изменения')

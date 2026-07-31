@@ -48,7 +48,7 @@ async function showProfile(resultId) {
         const statusEl = document.getElementById('profileStatus');
         statusEl.textContent = data.group;
         statusEl.className = 'status-badge';
-        if (data.group.includes('СУИЦИДАЛЬНЫЙ') || data.group.includes('ОГРАНИЧИТЬ')) {
+        if (data.group.includes('Суицидальный') || data.group.includes('Риск импульсивности')) {
             statusEl.classList.add('status-danger');
         } else {
             statusEl.classList.add('status-good');
@@ -182,25 +182,56 @@ function renderScoresTable(values, factors, valuesScore) {
 }
 
 function deleteResult(resultId) {
-    const overlayContainer = document.getElementById('confirmOverlay');
-    const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
+  const overlayContainer = document.getElementById('confirmOverlay');
+  const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
 
-    overlayContainer.classList.add('active');
+  if (!overlayContainer || !confirmDeleteBtn) return;
 
-    confirmDeleteBtn.addEventListener('click', function () {
-        fetch('/api/result/' + resultId, {method: 'DELETE'}).then(r => r.json()).then(d => {
-            if (d.success) location.reload(); else alert('Ошибка удаления');
-        });
+  const btn = Array.from(document.querySelectorAll('.btn-delete')).find(
+    b => parseInt(b.dataset.resultId, 10) === resultId
+  );
+
+  if (!btn) return;
+  const csrfToken = btn.dataset.csrf;
+  if (!csrfToken) return;
+
+  overlayContainer.classList.add('active');
+
+  confirmDeleteBtn.onclick = function handler() {
+    confirmDeleteBtn.onclick = null;
+
+    const url = `/api/result/${resultId}`;
+
+    fetch(url, {
+      method: 'DELETE',
+      headers: {
+        'X-CSRFToken': csrfToken,
+        'Content-Type': 'application/json'
+      }
     })
+    .then(r => {
+      if (!r.ok) {
+        overlayContainer.classList.remove('active');
+        return;
+      }
+      return r.json();
+    })
+    .then(d => {
+      if (d.success) {
+        location.reload();
+      } else {
+        overlayContainer.classList.remove('active');
+      }
+    })
+    .catch(() => {
+      overlayContainer.classList.remove('active');
+    });
+  };
 }
 
 function closeConfirm() {
     const overlayContainer = document.getElementById('confirmOverlay');
     overlayContainer.classList.remove('active');
 }
-
-function downloaditem(resultId) {
-}
-
 
 
