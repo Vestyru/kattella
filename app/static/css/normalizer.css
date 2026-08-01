@@ -46,6 +46,10 @@ p:where(:not([class]):not(:last-child)) {
     font-style: normal
 }
 
+.hidden {
+    display: none;
+}
+
 img, svg, video, canvas, audio, iframe, embed, object {
     vertical-align: middle;
     display: block;

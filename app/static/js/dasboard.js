@@ -7,8 +7,6 @@ const sidebarCard = document.querySelector('.user-card__info');
 const sidebarLogout = document.querySelector('.user__logout');
 
 
-buttonSidebar.addEventListener('click', closeSidebar);
-
 function closeSidebar() {
     sidebar.classList.toggle('active');
     iconButton.classList.toggle('rotate-180');
@@ -168,11 +166,12 @@ function renderScoresTable(values, factors, valuesScore) {
 
     factors.forEach((factor, index) => {
         const scoresFactors = document.createElement('th')
-        scoresFactors.classList.add('kattella-panel__cell--header');
+        scoresFactors.classList.add('kattella-panel__cell--factory');
         scoresFactors.textContent = `Фактор ${factor} (Сырой)`
 
         const scoresValues = document.createElement('td')
         scoresValues.classList.add('kattella-panel__cell');
+        scoresValues.classList.add('kattella-panel__cell-scores');
         scoresValues.textContent = valuesScore[index];
 
         scoresContainer.append(scoresFactors)
@@ -234,4 +233,110 @@ function closeConfirm() {
     overlayContainer.classList.remove('active');
 }
 
+
+async function copyStens() {
+    const copyButton = document.querySelector('.copy-btn');
+    const copyIcon = document.querySelector('.copy-icon');
+    const copySuccess = document.querySelector('.copy-success');
+
+    // Профиль
+    const profileSurname = document.getElementById('profileSurname');
+    const profileCallsign = document.getElementById('profile-callsign');
+    const profileGroup = document.getElementById('profileGroup');
+    const profileDate = document.getElementById('profileDate');
+
+    const surnameText = profileSurname ? profileSurname.textContent.trim() : '';
+    const callsignText = profileCallsign ? profileCallsign.textContent.trim() : '';
+    const groupText = profileGroup ? profileGroup.textContent.trim() : '';
+    const dateText = profileDate ? profileDate.textContent.trim() : '';
+
+    // Заголовки
+    const headerCells = document.querySelectorAll('.kattella-panel__cell--header');
+    const headers = Array.from(headerCells).map(cell =>
+        cell.textContent.trim().replace('(Стен)', '').trim()
+    );
+
+    const valueCells = document.querySelectorAll('.kattella-panel__cell');
+    const allValues = Array.from(valueCells).map(cell => cell.textContent.trim());
+    const stens = allValues.slice(0, 16);
+
+    const textCopy = [
+        'Стены:',
+        [surnameText, callsignText, groupText, dateText].join('\t'),
+        headers.join('\t'),
+        stens.join('\t')
+    ].join('\n');
+
+    try {
+        await navigator.clipboard.writeText(textCopy);
+
+        if (copyIcon && copySuccess) {
+            copyButton.classList.add('copy-success');
+            copyIcon.classList.add('hidden');
+            copySuccess.classList.remove('hidden');
+        }
+
+        setTimeout(() => {
+            if (copyIcon && copySuccess) {
+                copyButton.classList.remove('copy-success');
+                copyIcon.classList.remove('hidden');
+                copySuccess.classList.add('hidden');
+            }
+        }, 2000);
+
+    } catch (err) {
+        console.error('Ошибка копирования стен:', err);
+        alert('Не удалось скопировать стены');
+    }
+}
+
+
+async function copyRawScores() {
+    const copyButtonRaw = document.querySelector('.copy-btn-raw');
+    const copyIconRaw = document.querySelector('.copy-icon-raw');
+    const copySuccessRaw = document.querySelector('.copy-success-raw');
+
+    // Заголовки
+    const headerFactory = document.querySelectorAll('.kattella-panel__cell--factory');
+    const headersFactory = Array.from(headerFactory).map(cell =>
+        cell.textContent.trim().
+        replace(/Фактор\s*/g, '')
+            .replace(/\s*\(Сырой\)/g, '').trim());
+
+    // Сырые баллы
+    const textCellsRaw = document.querySelectorAll('.kattella-panel__cell-scores');
+    const valuesRaw = Array.from(textCellsRaw).map(cell => cell.textContent.trim());
+
+
+    const textCopyRaw = [
+        'Сырые баллы:',
+        headersFactory.join('\t'),
+        valuesRaw.join('\t')
+    ].join('\n');
+
+    try {
+        await navigator.clipboard.writeText(textCopyRaw);
+
+        if (copyIconRaw && copySuccessRaw) {
+            copyButtonRaw.classList.add('copy-success');
+            copyIconRaw.classList.add('hidden');
+            copySuccessRaw.classList.remove('hidden');
+        }
+
+        setTimeout(() => {
+            if (copyIconRaw && copySuccessRaw) {
+                copyButtonRaw.classList.remove('copy-success');
+                copyIconRaw.classList.remove('hidden');
+                copySuccessRaw.classList.add('hidden');
+            }
+        }, 2000);
+
+    } catch (err) {
+        console.error('Ошибка копирования сырых баллов:', err);
+        alert('Не удалось скопировать сырые баллы');
+    }
+}
+
+
+buttonSidebar.addEventListener('click', closeSidebar);
 

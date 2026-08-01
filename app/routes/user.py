@@ -1,5 +1,6 @@
 from flask import Blueprint, redirect, render_template, flash, request,session, url_for
 from flask_login import login_user, logout_user, login_required, current_user
+from wtforms.fields import datetime
 from ..extensions import db,bcrypt
 from ..forms import LoginForm, RegisterForm,SearchForm, Update_profile
 from ..models.user import User
@@ -86,7 +87,8 @@ def register():
     statuses = db.session.query(User.status).distinct().all()
     form.group_status.choices = [(s.status, s.status) for s in statuses if s.status]
 
-    group_users = User.query.all()
+
+    group_users = User.query.order_by(User.date).all()
 
     group = form.group_user.data
     if group == 'admin':
@@ -94,7 +96,7 @@ def register():
 
     if form.validate_on_submit():
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-        user = User(name=form.name.data, login=form.login.data , email=form.email.data, password=hashed_password, group=group,status=form.group_status.data)
+        user = User(full_name=form.full_name.data,name=form.name.data, login=form.login.data , email=form.email.data, password=hashed_password, group=group,status=form.group_status.data)
         try:
             db.session.add(user)
             db.session.commit()

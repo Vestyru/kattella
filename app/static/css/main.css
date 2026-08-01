@@ -16,11 +16,6 @@ body {
     overflow-x: hidden
 }
 
-
-.hidden {
-    display: none !important
-}
-
 .user__logout:hover {
     background-color: #c82333
 }

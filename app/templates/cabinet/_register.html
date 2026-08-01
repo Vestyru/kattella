@@ -48,7 +48,7 @@
                             <th class="users-table__header-cell">Роль</th>
                             <th class="users-table__header-cell">Прикреплен к отряду</th>
                             <th class="users-table__header-cell">Регистрация</th>
-                            <th class="users-table__header-cell users-table__header-cell--center">Действия</th>
+                            <th class="users-table__header-cell users-table__header-cell--center" style="display: none">Действия</th>
                         </tr>
                         </thead>
                         <tbody class="users-table__body">
@@ -83,9 +83,8 @@
                             {% else %}
                             <td class="users-table__cell">{{ group_user.group if group_user.group else 'Группа отсутствует' }}</td>
                             {% endif %}
-
                             <td class="users-table__cell">{{ group_user.date.strftime('%d.%m.%Y') }}</td>
-                            <td class="users-table__cell">
+                            <td class="users-table__cell" style="display: none">
                                 <div class="action-buttons">
                                     <button class="action-btn" title="Изменить статус">
                                         <svg class="action-btn__icon" viewBox="0 0 256 256" fill="currentColor">
@@ -127,6 +126,9 @@
                         <span class="register-form__title">Добавить пользователя</span>
                     </div>
                     {{ form.csrf_token }}
+
+                    {{ form.full_name.label(class="auth-form__label-text") }}
+                    {{ form.full_name(class="register-form__input auth-form__input", autocomplete="off") }}
 
                     {{ form.name.label(class="auth-form__label-text") }}
                     {{ form.name(class="register-form__input auth-form__input", autocomplete="off") }}

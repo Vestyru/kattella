@@ -6,7 +6,8 @@ from wtforms.validators import DataRequired, length, ValidationError,Optional
 
 
 class RegisterForm(FlaskForm):
-    name = StringField("ФИО", validators=[DataRequired(), length(min=7, max = 90)])
+    full_name = StringField('Личный номер', validators=[DataRequired(), length(min = 10, max = 30)])
+    name = StringField("Должность", validators=[DataRequired(), length(min=7, max = 90)])
     email = StringField('email', validators=[DataRequired(), length(min=7, max = 30)])
     login = StringField('Логин', validators=[DataRequired(), length(min=5, max = 16)])
     password = PasswordField('Пароль', validators=[DataRequired(), length(min=7, max = 30)])
@@ -20,8 +21,9 @@ class RegisterForm(FlaskForm):
         if user:
             raise ValidationError('Имя пользователя занято. Пожалуйста, выберите другое')
 
+
 class TestForm(FlaskForm):
-    fullname = StringField('ФИО', validators=[DataRequired(),length(min=7, max = 30)])
+    fullname = StringField('Личный номер', validators=[DataRequired(),length(min=7, max = 9)])
     squad = StringField('Отряд', validators=[DataRequired(),length(min=2, max = 8)])
     callsign = StringField('Ваш позывной', validators=[DataRequired(),length(min=2, max = 20)])
     date = StringField('Дата рождения', validators=[DataRequired()])
@@ -34,15 +36,17 @@ class LoginForm(FlaskForm):
     remember = BooleanField('Запомнить меня')
     submit = SubmitField('Войти')
 
+
 class SearchForm(FlaskForm):
-    fullname = StringField('Фамилия', validators=[Optional()])
+    fullname = StringField('Личный номер', validators=[Optional()])
     callsign = StringField('Позывной', validators=[Optional()])
     date = DateField('Дата рождения', validators=[Optional()])
     submit = SubmitField('Найти')
 
 
 class Update_profile(FlaskForm):
-    name = StringField('ФИО', validators=[DataRequired()])
+    full_name = StringField('Личный номер', validators=[DataRequired(), length(min = 10, max = 30)])
+    name = StringField('Должность', validators=[DataRequired()])
     login = StringField('Логин', validators=[DataRequired()])
     email = StringField('email')
     password = PasswordField('Текущий пароль', validators=[DataRequired()])

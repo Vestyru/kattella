@@ -21,7 +21,7 @@
                 {{ form.csrf_token }}
                 <div class="filter-item">
                     {{ form.fullname.label(class="label-field") }}
-                    {{ form.fullname(class="input-field",value=fullname_q, placeholder='Введите фамилию') }}
+                    {{ form.fullname(class="input-field",value=fullname_q, placeholder='Введите личный номер') }}
                 </div>
                 <div class="filter-item">
                     {{ form.callsign.label(class="label-field") }}
@@ -54,7 +54,7 @@
                     <thead>
                     <tr>
                         <th>№</th>
-                        <th>Фамилия</th>
+                        <th>Личный номер</th>
                         <th>Позывной</th>
                         <th>Отряд</th>
                         <th>Дата рождения</th>
@@ -117,7 +117,7 @@
                     {% endfor %}
                     {% else %}
                     <tr>
-                        <td colspan="8" style="text-align: center">Нет данных для отображения</td>
+                        <td colspan="8" style="text-align: center; padding: 10px">Нет данных для отображения</td>
                     </tr>
                     {% endif %}
                     </tbody>
@@ -224,7 +224,16 @@
                 </div>
             </div>
             <div class="kattella-panel__content">
-                <h4 class="kattella-panel__title">СТЕНЫ</h4>
+                <div class="kattella-panel__header">
+                    <h4 class="kattella-panel__title">СТЕНЫ</h4>
+                    <button class="copy-btn btn" title="Скопировать в буфер" onclick="copyStens()">
+                        <svg class="copy-icon" width="20" height="20" viewBox="0 0 256 256" fill="currentColor">
+                            <path d="M216,32H88a8,8,0,0,0-8,8V80H40a8,8,0,0,0-8,8V216a8,8,0,0,0,8,8H168a8,8,0,0,0,8-8V176h40a8,8,0,0,0,8-8V40A8,8,0,0,0,216,32ZM160,208H48V96H160Zm48-48H176V88a8,8,0,0,0-8-8H96V48H208Z"></path>
+                        </svg>
+                        <svg class="copy-success hidden" width="20" height="20" viewBox="0 0 256 256" fill="currentColor"><path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"></path></svg>
+                        <span>Скопировать в буфер</span>
+                    </button>
+                </div>
                 <table class="kattella-panel__table">
                     <thead>
                     <tr class="kattella-panel__row" id="kattella-panel__factors"><!--js--></tr>
@@ -235,7 +244,16 @@
                 </table>
 
                 <table class="kattella-panel__table">
-                    <h4 class="kattella-panel__title">СЫРЫЕ БАЛЛЫ</h4>
+                    <div class="kattella-panel__header">
+                        <h4 class="kattella-panel__title">СЫРЫЕ БАЛЛЫ</h4>
+                        <button class="copy-btn-raw btn" title="Скопировать в буфер" onclick="copyRawScores()">
+                        <svg class="copy-icon copy-icon-raw" width="20" height="20" viewBox="0 0 256 256" fill="currentColor">
+                            <path d="M216,32H88a8,8,0,0,0-8,8V80H40a8,8,0,0,0-8,8V216a8,8,0,0,0,8,8H168a8,8,0,0,0,8-8V176h40a8,8,0,0,0,8-8V40A8,8,0,0,0,216,32ZM160,208H48V96H160Zm48-48H176V88a8,8,0,0,0-8-8H96V48H208Z"></path>
+                        </svg>
+                            <svg class="copy-success hidden copy-success-raw" width="20" height="20" viewBox="0 0 256 256" fill="currentColor"><path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"></path></svg>
+                        <span>Скопировать в буфер</span>
+                    </button>
+                    </div>
                     <thead>
                     <tr class="kattella-panel__row" id="kattella-panel__scores">
                         <!--js-->
