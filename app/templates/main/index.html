@@ -19,8 +19,19 @@
                 {% endif %}
                 <form method="post" enctype="multipart/form-data" class="start-form">
                     {{ form.hidden_tag() }}
+
                     {{ form.fullname.label(class="start-form__label") }}
                     {{ form.fullname(class="start-form__input", autocomplete="off")}}
+
+                    {{ form.squad.label(class="start-form__label") }}
+                    {{ form.squad(class="start-form__input", autocomplete="off")}}
+
+                    {{ form.callsign.label(class="start-form__label") }}
+                    {{ form.callsign(class="start-form__input", autocomplete="off")}}
+
+                    {{ form.date.label(class="start-form__label") }}
+                    {{ form.date(class="start-form__input", type="date", autocomplete="off")}}
+
                     {{ form.submit(class="start-form__submit") }}
                 </form>
             </div>

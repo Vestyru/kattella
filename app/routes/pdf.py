@@ -1,10 +1,9 @@
 from io import BytesIO
-from flask import Blueprint, render_template, send_file
-from flask_login import login_required
+from flask import Blueprint, render_template, send_file, redirect,flash
+from flask_login import login_required,current_user
 from weasyprint import HTML
 from datetime import datetime
 import json
-
 from ..models.quiz import TestResult
 
 pdf_bp = Blueprint('pdf_bp', __name__)
@@ -12,8 +11,11 @@ pdf_bp = Blueprint('pdf_bp', __name__)
 
 @pdf_bp.route('/download/report/<int:result_id>/<int:report_number>')
 @login_required
-def download_report(result_id,report_number):
+def download(result_id,report_number):
 
+    if current_user.status != "admin":
+        flash('Вам запрещено скачивать отчеты', 'danger')
+        return redirect('/cabinet')
 
     result = TestResult.query.get_or_404(result_id)
     participant = result.participant

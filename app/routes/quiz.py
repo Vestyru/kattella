@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, flash, session, jsonify
-from flask_login import login_required,current_user
+from flask_login import login_required
 from ..forms import TestForm
 from ..models.quiz import Questions, Participants, Answer, TestResult
 from ..extensions import db
@@ -162,10 +162,11 @@ def get_result_api(result_id):
         return jsonify({'success': False, 'error': str(e)}), 500
 
 
-@quiz_bp.route('/api/result/<int:result_id>', methods=['DELETE'])
-def delete_result_api(result_id):
+@quiz_bp.route('/cabinet/<int:result_id>/delete')
+@login_required
+def delete(result_id):
     try:
-        result = TestResult.query.get_or_404(result_id)
+        result = TestResult.query.get(result_id)
         participant_id = result.participant_id
 
         Answer.query.filter_by(participant_id=participant_id).delete()
@@ -173,11 +174,12 @@ def delete_result_api(result_id):
         Participants.query.filter_by(id=participant_id).delete()
 
         db.session.commit()
-        return jsonify({'success': True})
+        return redirect('/cabinet')
 
     except Exception:
         db.session.rollback()
         return jsonify({'success': False}), 500
+
 
 @quiz_bp.route('/finish')
 def finish():

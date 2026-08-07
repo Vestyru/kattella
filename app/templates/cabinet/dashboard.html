@@ -2,6 +2,7 @@
 
 {% block title %}Личный кабинет{% endblock %}
 
+
 {% block style %}
 <link rel="stylesheet" href="{{ url_for('static', filename='css/dasboard.css') }}">
 {% endblock %}
@@ -21,15 +22,15 @@
                 {{ form.csrf_token }}
                 <div class="filter-item">
                     {{ form.fullname.label(class="label-field") }}
-                    {{ form.fullname(class="input-field",value=fullname_q, placeholder='Введите личный номер') }}
+                    {{ form.fullname(class="input-field",value=fullname, placeholder='Введите ФИО') }}
                 </div>
                 <div class="filter-item">
                     {{ form.callsign.label(class="label-field") }}
-                    {{ form.callsign(class="input-field",value=callsign_q, placeholder='Позывной') }}
+                    {{ form.callsign(class="input-field",value=callsign, placeholder='Введите позывной') }}
                 </div>
                 <div class="filter-item">
                     {{ form.date.label(class="label-field") }}
-                    {{ form.date(class="input-field",type='date', value=date_q) }}
+                    {{ form.date(class="input-field",type='date', value=date) }}
                 </div>
                 <div class="filter-item filter-item__actions">
                     <button type="submit" class="btn btn-primary" id="applyFilterBtn">
@@ -54,7 +55,7 @@
                     <thead>
                     <tr>
                         <th>№</th>
-                        <th>Личный номер</th>
+                        <th>ФИО</th>
                         <th>Позывной</th>
                         <th>Отряд</th>
                         <th>Дата рождения</th>
@@ -96,22 +97,19 @@
                                 </svg>
                             </button>
                             {% if current_user.status == 'admin' %}
-                            <button class="btn-delete button-icon"
-                                    data-result-id="{{ item.id }}"
-                                    data-csrf="{{ csrf_token() }}"
-                                    title="Удалить результат"
-                                    onclick="deleteResult({{ item.id }})">
+                            <a class="btn-delete button-icon" href="javascript:void(0)"  title="Удалить результат"
+                               onclick="event.preventDefault(); showDeleteConfirm('{{ url_for('quiz_bp.delete', result_id=item.id) }}')">
                                 <svg class="icon-btn" viewBox="0 0 256 256" width="20" height="20" fill="currentColor">
                                     <path d="M216,48H176V40a24,24,0,0,0-24-24H104A24,24,0,0,0,80,40v8H40a8,8,0,0,0,0,16h8V208a16,16,0,0,0,16,16H192a16,16,0,0,0,16-16V64h8a8,8,0,0,0,0-16ZM96,40a8,8,0,0,1,8-8h48a8,8,0,0,1,8,8v8H96Zm96,168H64V64H192ZM112,104v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm48,0v64a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Z"></path>
                                 </svg>
-                                <button class="btn-download button-icon" title="Скачать в PDF формате"
-                                        onclick="window.location.href='/download/report/{{ item.id }}/{{ offset + loop.index }}'">
-                                    <svg class="icon-btn" viewBox="0 0 256 256" width="20" height="20"
-                                         fill="currentColor">
-                                        <path d="M224,152v56a16,16,0,0,1-16,16H48a16,16,0,0,1-16-16V152a8,8,0,0,1,16,0v56H208V152a8,8,0,0,1,16,0Zm-101.66,5.66a8,8,0,0,0,11.32,0l40-40a8,8,0,0,0-11.32-11.32L136,132.69V40a8,8,0,0,0-16,0v92.69L93.66,106.34a8,8,0,0,0-11.32,11.32Z"></path>
-                                    </svg>
-                                </button>
-                                {% endif %}
+                            </a>
+                            <a class="btn-download button-icon" href="{{ url_for('pdf_bp.download', result_id=item.id, report_number=offset + loop.index) }}" title="Скачать в PDF формате">
+                                <svg class="icon-btn" viewBox="0 0 256 256" width="20" height="20"
+                                     fill="currentColor">
+                                    <path d="M224,152v56a16,16,0,0,1-16,16H48a16,16,0,0,1-16-16V152a8,8,0,0,1,16,0v56H208V152a8,8,0,0,1,16,0Zm-101.66,5.66a8,8,0,0,0,11.32,0l40-40a8,8,0,0,0-11.32-11.32L136,132.69V40a8,8,0,0,0-16,0v92.69L93.66,106.34a8,8,0,0,0-11.32,11.32Z"></path>
+                                </svg>
+                            </a>
+                            {% endif %}
                         </td>
                     </tr>
                     {% endfor %}
@@ -230,7 +228,10 @@
                         <svg class="copy-icon" width="20" height="20" viewBox="0 0 256 256" fill="currentColor">
                             <path d="M216,32H88a8,8,0,0,0-8,8V80H40a8,8,0,0,0-8,8V216a8,8,0,0,0,8,8H168a8,8,0,0,0,8-8V176h40a8,8,0,0,0,8-8V40A8,8,0,0,0,216,32ZM160,208H48V96H160Zm48-48H176V88a8,8,0,0,0-8-8H96V48H208Z"></path>
                         </svg>
-                        <svg class="copy-success hidden" width="20" height="20" viewBox="0 0 256 256" fill="currentColor"><path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"></path></svg>
+                        <svg class="copy-success hidden" width="20" height="20" viewBox="0 0 256 256"
+                             fill="currentColor">
+                            <path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"></path>
+                        </svg>
                         <span>Скопировать в буфер</span>
                     </button>
                 </div>
@@ -247,12 +248,16 @@
                     <div class="kattella-panel__header">
                         <h4 class="kattella-panel__title">СЫРЫЕ БАЛЛЫ</h4>
                         <button class="copy-btn-raw btn" title="Скопировать в буфер" onclick="copyRawScores()">
-                        <svg class="copy-icon copy-icon-raw" width="20" height="20" viewBox="0 0 256 256" fill="currentColor">
-                            <path d="M216,32H88a8,8,0,0,0-8,8V80H40a8,8,0,0,0-8,8V216a8,8,0,0,0,8,8H168a8,8,0,0,0,8-8V176h40a8,8,0,0,0,8-8V40A8,8,0,0,0,216,32ZM160,208H48V96H160Zm48-48H176V88a8,8,0,0,0-8-8H96V48H208Z"></path>
-                        </svg>
-                            <svg class="copy-success hidden copy-success-raw" width="20" height="20" viewBox="0 0 256 256" fill="currentColor"><path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"></path></svg>
-                        <span>Скопировать в буфер</span>
-                    </button>
+                            <svg class="copy-icon copy-icon-raw" width="20" height="20" viewBox="0 0 256 256"
+                                 fill="currentColor">
+                                <path d="M216,32H88a8,8,0,0,0-8,8V80H40a8,8,0,0,0-8,8V216a8,8,0,0,0,8,8H168a8,8,0,0,0,8-8V176h40a8,8,0,0,0,8-8V40A8,8,0,0,0,216,32ZM160,208H48V96H160Zm48-48H176V88a8,8,0,0,0-8-8H96V48H208Z"></path>
+                            </svg>
+                            <svg class="copy-success hidden copy-success-raw" width="20" height="20"
+                                 viewBox="0 0 256 256" fill="currentColor">
+                                <path d="M229.66,77.66l-128,128a8,8,0,0,1-11.32,0l-56-56a8,8,0,0,1,11.32-11.32L96,188.69,218.34,66.34a8,8,0,0,1,11.32,11.32Z"></path>
+                            </svg>
+                            <span>Скопировать в буфер</span>
+                        </button>
                     </div>
                     <thead>
                     <tr class="kattella-panel__row" id="kattella-panel__scores">
@@ -268,14 +273,5 @@
             </div>
         </section>
     </main>
-</div>
-<div class="confirm-overlay" id="confirmOverlay">
-    <div class="confirm-dialog">
-        <p class="confirm-text" id="confirmText">Вы действительно хотите удалить запись?</p>
-        <div class="confirm-actions">
-            <button class="confirm-btn confirm-btn-cancel" onclick="closeConfirm()">Отмена</button>
-            <button class="confirm-btn confirm-btn-delete" id="confirmDeleteBtn">Удалить</button>
-        </div>
-    </div>
 </div>
 {% endblock %}

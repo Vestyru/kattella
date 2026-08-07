@@ -60,7 +60,6 @@ input, textarea, select {
     margin: 0;
     outline: none;
     border: none;
-    cursor: text;
 }
 
 button, label {
@@ -115,8 +114,6 @@ input:disabled:hover,
     border-color: #ddd;
     box-shadow: none;
 }
-
-
 
 
 svg * {

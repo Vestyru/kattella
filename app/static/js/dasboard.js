@@ -7,6 +7,7 @@ const sidebarCard = document.querySelector('.user-card__info');
 const sidebarLogout = document.querySelector('.user__logout');
 
 
+/*SIDEBAR*/
 function closeSidebar() {
     sidebar.classList.toggle('active');
     iconButton.classList.toggle('rotate-180');
@@ -18,6 +19,7 @@ function closeSidebar() {
     localStorage.setItem('sidebar', state);
 }
 
+/*SIDEBAR localStorage*/
 document.addEventListener('DOMContentLoaded', function() {
     const state = localStorage.getItem('sidebar');
 
@@ -30,6 +32,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
+
+/*ВЫВОД РЕЗУЛЬТАТА*/
 async function showProfile(resultId) {
     const skeleton = document.getElementById('profileSkeleton');
     skeleton.style.display = 'flex';
@@ -167,7 +171,7 @@ function renderScoresTable(values, factors, valuesScore) {
     factors.forEach((factor, index) => {
         const scoresFactors = document.createElement('th')
         scoresFactors.classList.add('kattella-panel__cell--factory');
-        scoresFactors.textContent = `Фактор ${factor} (Сырой)`
+        scoresFactors.textContent = `${factor} (Сырой)`
 
         const scoresValues = document.createElement('td')
         scoresValues.classList.add('kattella-panel__cell');
@@ -180,60 +184,8 @@ function renderScoresTable(values, factors, valuesScore) {
 
 }
 
-function deleteResult(resultId) {
-  const overlayContainer = document.getElementById('confirmOverlay');
-  const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
 
-  if (!overlayContainer || !confirmDeleteBtn) return;
-
-  const btn = Array.from(document.querySelectorAll('.btn-delete')).find(
-    b => parseInt(b.dataset.resultId, 10) === resultId
-  );
-
-  if (!btn) return;
-  const csrfToken = btn.dataset.csrf;
-  if (!csrfToken) return;
-
-  overlayContainer.classList.add('active');
-
-  confirmDeleteBtn.onclick = function handler() {
-    confirmDeleteBtn.onclick = null;
-
-    const url = `/api/result/${resultId}`;
-
-    fetch(url, {
-      method: 'DELETE',
-      headers: {
-        'X-CSRFToken': csrfToken,
-        'Content-Type': 'application/json'
-      }
-    })
-    .then(r => {
-      if (!r.ok) {
-        overlayContainer.classList.remove('active');
-        return;
-      }
-      return r.json();
-    })
-    .then(d => {
-      if (d.success) {
-        location.reload();
-      } else {
-        overlayContainer.classList.remove('active');
-      }
-    })
-    .catch(() => {
-      overlayContainer.classList.remove('active');
-    });
-  };
-}
-
-function closeConfirm() {
-    const overlayContainer = document.getElementById('confirmOverlay');
-    overlayContainer.classList.remove('active');
-}
-
-
+/*КОПИРОВАНИЕ ТЕКСТА*/
 async function copyStens() {
     const copyButton = document.querySelector('.copy-btn');
     const copyIcon = document.querySelector('.copy-icon');
@@ -290,7 +242,6 @@ async function copyStens() {
     }
 }
 
-
 async function copyRawScores() {
     const copyButtonRaw = document.querySelector('.copy-btn-raw');
     const copyIconRaw = document.querySelector('.copy-icon-raw');
@@ -338,5 +289,20 @@ async function copyRawScores() {
 }
 
 
+/*Кнопка SIDEBAR*/
 buttonSidebar.addEventListener('click', closeSidebar);
 
+
+/*Модальное окно "удаление"*/
+function showDeleteConfirm(url) {
+    const overlay = document.getElementById('confirmOverlay');
+    overlay.classList.add('active');
+
+    document.getElementById('confirmDeleteBtn').onclick = function() {
+        window.location.href = url;
+    };
+
+    document.querySelector('.confirm-btn-cancel').onclick = function() {
+        overlay.classList.remove('active');
+    };
+}

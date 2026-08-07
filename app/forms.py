@@ -6,7 +6,7 @@ from wtforms.validators import DataRequired, length, ValidationError,Optional
 
 
 class RegisterForm(FlaskForm):
-    full_name = StringField('Личный номер', validators=[DataRequired(), length(min = 10, max = 30)])
+    full_name = StringField('ФИО', validators=[DataRequired(), length(min = 10, max = 30)])
     name = StringField("Должность", validators=[DataRequired(), length(min=7, max = 90)])
     email = StringField('email', validators=[DataRequired(), length(min=7, max = 30)])
     login = StringField('Логин', validators=[DataRequired(), length(min=5, max = 16)])
@@ -23,29 +23,29 @@ class RegisterForm(FlaskForm):
 
 
 class TestForm(FlaskForm):
-    fullname = StringField('Личный номер', validators=[DataRequired(),length(min=7, max = 9)])
-    squad = StringField('Отряд', validators=[DataRequired(),length(min=2, max = 8)])
-    callsign = StringField('Ваш позывной', validators=[DataRequired(),length(min=2, max = 20)])
+    fullname = StringField('ФИО', validators=[DataRequired(),length(min=15, max = 50)])
+    squad = StringField('Отряд', validators=[DataRequired(),length(min=2, max = 12)])
+    callsign = StringField('Ваш позывной', validators=[DataRequired(),length(min=2, max = 10)])
     date = StringField('Дата рождения', validators=[DataRequired()])
     submit = SubmitField('Начать тест')
 
 
 class LoginForm(FlaskForm):
-    login = StringField('Логин', validators=[DataRequired(), length(min=3, max = 30)])
+    login = StringField('Логин', validators=[DataRequired(), length(min=3, max = 12)])
     password = PasswordField('Пароль', validators=[DataRequired()])
     remember = BooleanField('Запомнить меня')
     submit = SubmitField('Войти')
 
 
 class SearchForm(FlaskForm):
-    fullname = StringField('Личный номер', validators=[Optional()])
+    fullname = StringField('ФИО', validators=[Optional()])
     callsign = StringField('Позывной', validators=[Optional()])
     date = DateField('Дата рождения', validators=[Optional()])
     submit = SubmitField('Найти')
 
 
 class Update_profile(FlaskForm):
-    full_name = StringField('Личный номер', validators=[DataRequired(), length(min = 10, max = 30)])
+    full_name = StringField('ФИО', validators=[DataRequired(), length(min = 10, max = 50)])
     name = StringField('Должность', validators=[DataRequired()])
     login = StringField('Логин', validators=[DataRequired()])
     email = StringField('email')

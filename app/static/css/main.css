@@ -654,3 +654,54 @@ input[type="date"] {
 .close-icon:hover {
     stroke: #e2e8f0;
 }
+
+
+/* OVERLAY */
+.confirm-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(2px);
+    z-index: 9999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.confirm-overlay.active {
+    display: flex;
+}
+.confirm-dialog {
+    background: #fff;
+    border-radius: 16px;
+    padding: 28px 24px 20px;
+    text-align: center;
+    width: 360px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+.confirm-text {
+    color: #6b7280;
+    margin: 0 0 20px;
+    line-height: 1.4;
+}
+.confirm-actions {
+    display: flex;
+    gap: 10px;
+}
+.confirm-btn {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: opacity 0.2s;
+}
+.confirm-btn:hover { opacity: 0.8; }
+.confirm-btn-cancel {
+    background: #f3f4f6;
+    color: #374151;
+}
+.confirm-btn-delete {
+    background: var(--btn-delete);
+    color: var(--color-white);
+}

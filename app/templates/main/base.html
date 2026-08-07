@@ -27,6 +27,16 @@
 {% endif %}
 {% endwith %}
 
+<div class="confirm-overlay" id="confirmOverlay">
+    <div class="confirm-dialog">
+        <p class="confirm-text" id="confirmText">Вы действительно хотите удалить запись?</p>
+        <div class="confirm-actions">
+            <button class="confirm-btn confirm-btn-cancel">Отмена</button>
+            <button class="confirm-btn confirm-btn-delete" id="confirmDeleteBtn">Удалить</button>
+        </div>
+    </div>
+</div>
+
 {% block script %}{% endblock %}
 <script type="text/javascript" src="{{ url_for('static', filename='js/main.js') }}"></script>
 </body>

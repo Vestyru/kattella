@@ -1,6 +1,6 @@
 from flask import Blueprint, redirect, render_template, flash, request,session, url_for
 from flask_login import login_user, logout_user, login_required, current_user
-from wtforms.fields import datetime
+from is_safe_url import is_safe_url
 from ..extensions import db,bcrypt
 from ..forms import LoginForm, RegisterForm,SearchForm, Update_profile
 from ..models.user import User
@@ -22,14 +22,32 @@ def report(result_id):
     return render_template('cabinet/report.html', result=result)
 
 
+@user.route('/cabinet/register/<int:user_id>/delete')
+@login_required
+def delete_user(user_id):
+
+    user = User.query.get_or_404(user_id)
+
+    if current_user.status != 'admin':
+        flash('У вас недостаточно прав!', 'danger')
+        return redirect('/cabinet')
+    try:
+        db.session.delete(user)
+        db.session.commit()
+        return redirect('/cabinet/register')
+    except SQLAlchemyError:
+        db.session.rollback()
+        return jsonify({'success': False}), 500
+
+
 @user.route('/cabinet', methods=['GET', 'POST'])
 @login_required
 def cabinet():
     form = SearchForm()
 
-    fullname_q = request.form.get('fullname') if request.method == 'POST' else request.args.get('fullname', '')
-    callsign_q = request.form.get('callsign') if request.method == 'POST' else request.args.get('callsign', '')
-    date_q = request.form.get('date') if request.method == 'POST' else request.args.get('date', '')
+    fullname = request.form.get('fullname') if request.method == 'POST' else request.args.get('fullname', '')
+    callsign = request.form.get('callsign') if request.method == 'POST' else request.args.get('callsign', '')
+    date = request.form.get('date') if request.method == 'POST' else request.args.get('date', '')
 
     page = request.args.get('page', 1, type=int)
     per_page = 20
@@ -43,14 +61,14 @@ def cabinet():
             query = query.filter(False)
             flash('Вам не назначена группа!', 'warning')
 
-    if fullname_q:
-        query = query.filter(Participants.fullname.ilike(f'%{fullname_q}%'))
+    if fullname:
+        query = query.filter(Participants.fullname.ilike(f'%{fullname}%'))
 
-    if callsign_q:
-        query = query.filter(Participants.callsign.ilike(f'%{callsign_q}%'))
+    if callsign:
+        query = query.filter(Participants.callsign.ilike(f'%{callsign}%'))
 
-    if date_q:
-        query = query.filter(Participants.date == date_q)
+    if date:
+        query = query.filter(Participants.date == date)
 
     pagination = query.order_by(TestResult.id.asc()).paginate(
         page=page,
@@ -67,15 +85,20 @@ def cabinet():
         pagination=pagination,
         items=pagination.items,
         form=form,
-        fullname_q=fullname_q or '',
-        callsign_q=callsign_q or '',
-        date_q=date_q or '',
+        fullname=fullname or '',
+        callsign=callsign or '',
+        date=date or '',
     )
 
 
 @user.route('/cabinet/register', methods=['GET', 'POST'])
 @login_required
 def register():
+
+    if current_user.status != "admin":
+        flash('Доступ закрыт!', 'danger')
+        return redirect('/cabinet')
+
     form = RegisterForm()
 
     groups = db.session.query(Participants.squad).distinct().all()
@@ -83,10 +106,10 @@ def register():
     group_choices.insert(0, ('admin', 'Все группы'))
     form.group_user.choices = group_choices
 
-
-    statuses = db.session.query(User.status).distinct().all()
-    form.group_status.choices = [(s.status, s.status) for s in statuses if s.status]
-
+    form.group_status.choices = [
+        ('admin', 'Администратор'),
+        ('moderator', 'Модератор'),
+    ]
 
     group_users = User.query.order_by(User.date).all()
 
@@ -101,9 +124,14 @@ def register():
             db.session.add(user)
             db.session.commit()
             next_page = request.args.get('next')
-            return redirect(next_page) if next_page else redirect('/cabinet')
-        except Exception as e:
-            print(str(e))
+
+            if next_page and is_safe_url(next_page, request.host_url):
+                return redirect(next_page)
+
+            return redirect(url_for("user.cabinet"))
+        except SQLAlchemyError as e:
+            db.session.rollback()
+            current_app.logger.exception(e)
             flash(f"При регистрации произошла ошибка")
     return render_template('cabinet/_register.html', form=form,group_users=group_users)
 
@@ -128,7 +156,7 @@ def login():
             flash('Вы успешно авторизовались', 'danger')
             return redirect(next_page) if next_page else redirect('/cabinet')
         else:
-            flash('Ошибка входа, проверьте логин или пароль', 'danger')
+            flash('Неверный логин или пароль', 'danger')
 
     return render_template('main/login.html', form=form)
 
@@ -139,7 +167,7 @@ def settings():
     form = Update_profile()
 
     if form.validate_on_submit():
-        user = User.query.get(current_user.id)
+        user = User.query.get_or_404(current_user.id)
 
         if form.password.data:
             if not bcrypt.check_password_hash(user.password, form.password.data):
@@ -156,7 +184,7 @@ def settings():
             db.session.commit()
             flash('Данные обновлены!', 'success')
             return redirect(url_for('user.settings'))
-        except Exception as e:
+        except SQLAlchemyError as e:
             db.session.rollback()
             flash(f'Ошибка сохранения: {str(e)}', 'danger')
 
