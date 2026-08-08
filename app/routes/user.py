@@ -1,7 +1,8 @@
-from flask import Blueprint, redirect, render_template, flash, request,session, url_for
+from flask import Blueprint, redirect, render_template, flash, request, session, url_for, current_app, jsonify
 from flask_login import login_user, logout_user, login_required, current_user
 from is_safe_url import is_safe_url
-from ..extensions import db,bcrypt
+from sqlalchemy.exc import SQLAlchemyError
+from ..extensions import db,bcrypt,limiter
 from ..forms import LoginForm, RegisterForm,SearchForm, Update_profile
 from ..models.user import User
 from ..models.quiz import TestResult, Participants
@@ -136,7 +137,13 @@ def register():
     return render_template('cabinet/_register.html', form=form,group_users=group_users)
 
 
+
 @user.route('/login', methods=['GET', 'POST'])
+@limiter.limit(
+    "5 per minute",
+    per_method=True,
+    methods=["POST"]
+)
 def login():
 
     if current_user.is_authenticated:
@@ -147,14 +154,18 @@ def login():
         user = User.query.filter_by(login=form.login.data).first()
 
         if user and bcrypt.check_password_hash(user.password, form.password.data):
-            if user.status != 'admin' and user.status != 'moderator':
+            if user.status not in ("admin", "moderator"):
                 flash('Доступ закрыт!', 'danger')
                 return render_template('main/login.html', form=form)
 
             login_user(user, remember=form.remember.data)
-            next_page = request.args.get('next')
-            flash('Вы успешно авторизовались', 'danger')
-            return redirect(next_page) if next_page else redirect('/cabinet')
+            next_page = request.args.get("next")
+
+            if next_page and is_safe_url(next_page, request.host_url):
+                return redirect(next_page)
+
+            flash('Вы успешно авторизовались', 'success')
+            return redirect(url_for("user.cabinet"))
         else:
             flash('Неверный логин или пароль', 'danger')
 

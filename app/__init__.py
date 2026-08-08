@@ -1,12 +1,13 @@
-from flask import Flask
+from flask import Flask, flash, redirect, url_for
+from flask_limiter.errors import RateLimitExceeded
 from werkzeug.middleware.proxy_fix import ProxyFix
-from .extensions import db, migrate, login_manager, csrf
-from .config import Config
-import os
 
-from  .routes.user import user
-from  .routes.quiz import quiz_bp
-from  .routes.pdf import pdf_bp
+from .extensions import db, migrate, login_manager, csrf, limiter
+from .config import Config
+
+from .routes.user import user
+from .routes.quiz import quiz_bp
+from .routes.pdf import pdf_bp
 
 
 def create_app(config_class=Config):
@@ -18,9 +19,18 @@ def create_app(config_class=Config):
     app.register_blueprint(user)
     app.register_blueprint(pdf_bp)
 
+    @app.errorhandler(RateLimitExceeded)
+    def handle_rate_limit(e):
+        flash(
+            "Слишком много неудачных попыток входа. Попробуйте снова через минуту.",
+            "danger"
+        )
+        return redirect(url_for("user.login"))
+
     db.init_app(app)
     migrate.init_app(app,db)
     login_manager.init_app(app)
+    limiter.init_app(app)
     csrf.init_app(app)
 
     # LOGIN MANAGER
