@@ -62,8 +62,22 @@ input, textarea, select {
     border: none;
 }
 
-button, label {
+select {
+    font: inherit;
+    margin: 0;
+    outline: none;
+    border: none;
     cursor: pointer;
+}
+
+button {
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+}
+
+label {
     background: none;
     border: none;
     padding: 0;
@@ -145,7 +159,7 @@ svg * {
     --active: #3988d5;
     --bg-active: #f4f9fe;
     --bg-number: #f3f4f6;
-    --color-white:#fff;
+    --color-white: #fff;
     --button: #fff;
     --text-secondary: #595959;
     --color-blue: #3b82f6;
@@ -159,8 +173,8 @@ svg * {
     --text-muted: #94a3b8;
     --btn-delete: #ef4444;
     --btn-delete-hover: #d83b32;
-    --btn-download:#5fd068;
-    --btn-download-hover:#4ea956;
+    --btn-download: #5fd068;
+    --btn-download-hover: #4ea956;
     --color-border-subtle: #e2e8f0;
     --shadow-card: 0 2px 8px #0000000a;
     --color-text-primary: #1e293b;
@@ -173,6 +187,7 @@ svg * {
     --color-danger-bg: #fee2e2;
     --color-accent-muted: #c7d2fe;
     --color-accent: #4f46e5;
+    --color-text-red: #dc2626;
     --radius: 12px;
     --spacing: .25rem;
 }

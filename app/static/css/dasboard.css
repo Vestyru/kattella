@@ -42,13 +42,9 @@
 }
 
 .user__logout--close {
-    padding: 0 !important;
     justify-content: center;
 }
 
-.user__logout--close:hover {
-    background: none !important;
-}
 
 .user__logout--close span {
     display: none;
@@ -118,7 +114,7 @@
 
 .user__logout {
     display: flex;
-    padding: 8px 16px;
+    padding: 8px 7px;
     text-decoration: none;
     border-radius: 8px;
     transition: background .2s;
@@ -126,11 +122,11 @@
 }
 
 .user__logout span {
-    color: #991b1b;
+    color: var(--color-text-red);
 }
 
 .user__logout svg {
-    color: #991b1b;
+    color: var(--color-text-red);
 }
 
 .user__logout:hover {
@@ -214,6 +210,11 @@
     font-size: 13px;
 }
 
+.register-form__input::placeholder {
+    color: var(--text-muted);
+    font-size: 13px;
+}
+
 input[type="date"]::-webkit-datetime-edit {
     font-size: 13px;
 }
@@ -269,8 +270,7 @@ input[type="date"]::-webkit-datetime-edit {
 }
 
 .icon-btn:hover {
-    transition: all 0.3s;
-    color: #1e293b;
+    color: var(--color-text-primary);
 }
 
 .btn-primary {
@@ -447,7 +447,6 @@ input[type="date"]::-webkit-datetime-edit {
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    margin-bottom: 1rem;
     position: relative;
 }
 
@@ -459,13 +458,6 @@ input[type="date"]::-webkit-datetime-edit {
     font-size: 1.1rem
 }
 
-.btn-close-profile {
-    background: none;
-    font-size: 1.2rem;
-    cursor: pointer;
-    color: var(--text-muted);
-    position: absolute;
-}
 
 .profile-meta {
     display: flex;
@@ -474,9 +466,6 @@ input[type="date"]::-webkit-datetime-edit {
     font-size: .9rem
 }
 
-.profile-meta__items {
-
-}
 
 .profile-chart-wrapper {
     margin: 30px 0 10px 0;
@@ -1048,7 +1037,7 @@ input[type="date"]::-webkit-datetime-edit-fields-wrapper {
     border: none;
     border-radius: 6px;
     background: transparent;
-    color: var(--text-muted, #6b7280);
+    color: var(--text-muted);
     cursor: pointer;
     transition: all 0.15s;
 }
@@ -1072,7 +1061,7 @@ input[type="date"]::-webkit-datetime-edit-fields-wrapper {
 .register-form {
     position: relative;
     width: 100%;
-    max-width: 450px;
+    max-width: 560px;
     max-height: 90vh;
     background-color: var(--bg-card);
     border: 1px solid var(--color-border-subtle);
@@ -1083,6 +1072,35 @@ input[type="date"]::-webkit-datetime-edit-fields-wrapper {
     flex-direction: column;
     gap: 6px;
     overflow-x: auto;
+}
+
+.register-form__text:after {
+    content: '*';
+    color: var(--color-text-red);
+}
+
+.register-form__text {
+    margin-top: 8px;
+    display: block;
+}
+
+.register-form__wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+
+.form-group__container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.form-group__action {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 30px;
 }
 
 .register-form__input {
@@ -1104,12 +1122,20 @@ input[type="date"]::-webkit-datetime-edit-fields-wrapper {
 }
 
 
-.register-overlay .close-btn {
-    position: absolute;
-    top: 15px;
-    right: 20px;
-    cursor: pointer;
+.close-btn {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     z-index: 1001;
+    border-radius: 8px;
+    transition: background 0.2s;
+}
+
+.close-btn:hover {
+    color: var(--color-text-primary);
+    background-color: var(--bg-body);
 }
 
 

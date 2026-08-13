@@ -16,9 +16,6 @@ body {
     overflow-x: hidden
 }
 
-.user__logout:hover {
-    background-color: #c82333
-}
 
 @keyframes fadeInUp {
     from {
@@ -182,9 +179,9 @@ body {
 
 .auth-form__label-text {
     font-size: 14px;
-    color: #555;
     flex: 1
 }
+
 
 .animate-spin{
     display: none;

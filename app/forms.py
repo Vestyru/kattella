@@ -44,7 +44,7 @@ class SearchForm(FlaskForm):
     submit = SubmitField('Найти')
 
 
-class Update_profile(FlaskForm):
+class UpdateProfile(FlaskForm):
     full_name = StringField('ФИО', validators=[DataRequired(), length(min = 10, max = 50)])
     name = StringField('Должность', validators=[DataRequired()])
     login = StringField('Логин', validators=[DataRequired()])

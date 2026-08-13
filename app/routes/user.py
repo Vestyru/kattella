@@ -2,8 +2,8 @@ from flask import Blueprint, redirect, render_template, flash, request, session,
 from flask_login import login_user, logout_user, login_required, current_user
 from is_safe_url import is_safe_url
 from sqlalchemy.exc import SQLAlchemyError
-from ..extensions import db,bcrypt,limiter
-from ..forms import LoginForm, RegisterForm,SearchForm, Update_profile
+from ..extensions import db,bcrypt
+from ..forms import LoginForm, RegisterForm,SearchForm, UpdateProfile
 from ..models.user import User
 from ..models.quiz import TestResult, Participants
 
@@ -118,7 +118,15 @@ def register():
     if group == 'admin':
         group = 'admin'
 
+    password = form.password.data
+    password2 = form.password2.data
+
+    if password != password2:
+        flash('Пароли не совпадают', 'danger')
+        return render_template('/cabinet/_register.html',form=form,group_users=group_users)
+
     if form.validate_on_submit():
+
         hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
         user = User(full_name=form.full_name.data,name=form.name.data, login=form.login.data , email=form.email.data, password=hashed_password, group=group,status=form.group_status.data)
         try:
@@ -129,7 +137,7 @@ def register():
             if next_page and is_safe_url(next_page, request.host_url):
                 return redirect(next_page)
 
-            return redirect(url_for("user.cabinet"))
+            return redirect(url_for("user.cabinet/register.html"))
         except SQLAlchemyError as e:
             db.session.rollback()
             current_app.logger.exception(e)
@@ -139,11 +147,6 @@ def register():
 
 
 @user.route('/login', methods=['GET', 'POST'])
-@limiter.limit(
-    "5 per minute",
-    per_method=True,
-    methods=["POST"]
-)
 def login():
 
     if current_user.is_authenticated:
@@ -175,7 +178,7 @@ def login():
 @user.route('/cabinet/settings', methods=['GET', 'POST'])
 @login_required
 def settings():
-    form = Update_profile()
+    form = UpdateProfile()
 
     if form.validate_on_submit():
         user = User.query.get_or_404(current_user.id)

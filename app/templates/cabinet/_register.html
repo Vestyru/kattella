@@ -123,27 +123,32 @@
                 </div>
             </div>
         </div>
-        <div id="registerForm">
-            <div class="register-overlay" id="registerOverlay">
-                <form method="post" enctype="multipart/form-data" class="register-form">
+        <div class="register-overlay" id="registerOverlay">
+            <form method="post" enctype="multipart/form-data" class="register-form">
+                <div class="register-form__wrapper">
+                    <span class="registre-form-title">Добавить пользователя</span>
                     <button class="close-btn" onclick="document.getElementById('registerOverlay').style.display='none'">
                         <svg width="20" height="20" viewBox="0 0 256 256" fill="currentColor">
                             <path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"></path>
                         </svg>
                     </button>
+                </div>
+                <div class="register-header">
                     {{ form.csrf_token }}
 
-                    {{ form.full_name.label(class="auth-form__label-text") }}
-                    {{ form.full_name(class="register-form__input auth-form__input", autocomplete="off") }}
+                    {{ form.full_name.label(class="register-form__text auth-form__label-text") }}
+                    {{ form.full_name(class="register-form__input auth-form__input", autocomplete="off", placeholder="Иванов Иван Иванович") }}
 
-                    {{ form.name.label(class="auth-form__label-text") }}
-                    {{ form.name(class="register-form__input auth-form__input", autocomplete="off") }}
+                    {{ form.name.label(class="register-form__text auth-form__label-text") }}
+                    {{ form.name(class="register-form__input auth-form__input", autocomplete="off", placeholder="Психолог") }}
 
-                    {{ form.email.label(class="auth-form__label-text") }}
-                    {{ form.email(class="register-form__input auth-form__input", autocomplete="off") }}
+                    {{ form.email.label(class="register-form__text auth-form__label-text") }}
+                    {{ form.email(class="register-form__input auth-form__input", autocomplete="off" ,
+                    placeholder="email@kettell.ru") }}
 
-                    {{ form.login.label(class="auth-form__label-text") }}
-                    {{ form.login(class="register-form__input auth-form__input", autocomplete="off") }}
+                    {{ form.login.label(class="register-form__text auth-form__label-text") }}
+                    {{ form.login(class="register-form__input auth-form__input", autocomplete="off" , placeholder="Логин авторизации") }}
+
                     {% if form.login.errors %}
                     <div class="invalid-feedback">
                         {% for error in form.login.errors %}
@@ -152,27 +157,35 @@
                     </div>
                     {% endif %}
 
-                    {{ form.password.label(class="auth-form__label-text") }}
-                    {{ form.password(class="register-form__input auth-form__input") }}
-
-                    {{ form.password2.label(class="auth-form__label-text") }}
-                    {{ form.password2(class="register-form__input auth-form__input") }}
-
-                    <div class="form-group">
-                        {{ form.group_user.label(class="auth-form__label-text") }}
-                        {{ form.group_user(class="register-form__input auth-form__input") }}
-                        <small>Назначьте группу для пользователя</small>
+                    <div class="form-group__container">
+                        <div class="form-group">
+                            {{ form.password.label(class="register-form__text auth-form__label-text") }}
+                            {{ form.password(class="register-form__input auth-form__input", placeholder="Минимум 7 символов") }}
+                        </div>
+                        <div class="form-group">
+                            {{ form.password2.label(class="register-form__text auth-form__label-text") }}
+                            {{ form.password2(class="register-form__input auth-form__input", placeholder="Введите пароль повторно") }}
+                        </div>
                     </div>
 
-                    <div class="form-group">
-                        {{ form.group_status.label(class="auth-form__label-text") }}
-                        {{ form.group_status(class="register-form__input auth-form__input") }}
-                        <small>Назначьте статус для пользователя.</small>
+                    <div class="form-group__container">
+                        <div class="form-group">
+                            {{ form.group_user.label(class="register-form__text auth-form__label-text") }}
+                            {{ form.group_user(class="register-form__input auth-form__input") }}
+                        </div>
+
+                        <div class="form-group">
+                            {{ form.group_status.label(class="register-form__text auth-form__label-text") }}
+                            {{ form.group_status(class="register-form__input auth-form__input") }}
+                        </div>
                     </div>
 
-                    {{ form.submit(class="btn btn-primary") }}
-                </form>
-            </div>
+                    <div class="form-group__action">
+                        {{ form.submit(class="btn btn-primary", id="register-btn") }}
+                    </div>
+                </div>
+            </form>
+
         </div>
     </main>
 </div>
