@@ -7,7 +7,6 @@ const sidebarCard = document.querySelector('.user-card__info');
 const sidebarLogout = document.querySelector('.user__logout');
 
 
-/*SIDEBAR*/
 function closeSidebar() {
     sidebar.classList.toggle('active');
     iconButton.classList.toggle('rotate-180');
@@ -293,7 +292,7 @@ async function copyRawScores() {
 buttonSidebar.addEventListener('click', closeSidebar);
 
 
-/*Модальное окно "удаление"*/
+/*Модальное окно delete*/
 function showDeleteConfirm(url) {
     const overlay = document.getElementById('confirmOverlay');
     overlay.classList.add('active');

@@ -120,8 +120,7 @@ ORM-модели SQLAlchemy.
 
 ## forms.py
 
-Все пользовательские формы построены на Flask-WTF.
-
+Пользовательские формы.
 * авторизация;
 * регистрация пользователя;
 * изменения профиля;
@@ -131,16 +130,19 @@ ORM-модели SQLAlchemy.
 
 # База данных
 
-### `PostgreSQL`
-
-Изменение структуры базы данных осуществляется через 
-Flask-Migrate.
+### `PostgreSQL 16+`
 
 ---
 
 ````Bash
-sudo apt install python3.10 python3.10-venv python3.10-dev
-python3.10 -m venv venv
+sudo apt install python3.10
+````
+````Bash
+python3 -m venv venv
+````
+````Bash
 source venv/bin/activate
+````
+````Bash
 pip install -r requirements.txt
 ````
