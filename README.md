@@ -25,7 +25,6 @@ routes/             Маршруты приложения
 templates/          HTML шаблоны
 static/             CSS, JavaScript, изображения
 utils/              Логика расчета теста
-migrations/         Миграция
 forms.py            Flask-формы
 config.py           Конфигурация
 extensions.py       Инициализация
