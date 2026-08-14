@@ -146,3 +146,9 @@ source venv/bin/activate
 ````Bash
 pip install -r requirements.txt
 ````
+````Bash
+sudo apt install postgresql postgresql-contrib
+````
+````Bash
+flask run
+````
