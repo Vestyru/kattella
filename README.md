@@ -17,31 +17,6 @@
 * Фильтрация результатов.
 ---
 
-## Сборка:
-
-* Python 3.10
-* Flask 3
-* SQLAlchemy 2
-* Flask-SQLAlchemy
-* Flask-Login
-* Flask-WTF
-* Flask-Migrate
-* Flask-Bcrypt
-* WeasyPrint
-
-
-* HTML5
-* CSS3
-* JavaScript
-
-
-* Jinja2
-* ReportLab
-* python-dotenv
-* psycopg2
-* uWSGI
-
-
 # Структура проекта
 
 ```text
