@@ -134,6 +134,7 @@ ORM-модели SQLAlchemy.
 
 ---
 
+# Установка и запуск
 ````Bash
 sudo apt install python3.10
 ````
