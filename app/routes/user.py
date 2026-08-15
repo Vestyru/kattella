@@ -137,7 +137,7 @@ def register():
             if next_page and is_safe_url(next_page, request.host_url):
                 return redirect(next_page)
 
-            return redirect(url_for("user.cabinet"))
+            return redirect(url_for("user.register"))
         except SQLAlchemyError as e:
             db.session.rollback()
             current_app.logger.exception(e)
